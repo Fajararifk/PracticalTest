@@ -3,9 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using PracticalTest.BLL;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
-using PracticalTest.Contracts.Implement;
-using PracticalTest.Contracts.Service;
-
+using PracticalTest.Contracts.BLL;
+using PracticalTest.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,9 +16,13 @@ opt.AddPolicy("CorsPolicy", builder =>
     .AllowAnyHeader()
 ));*/
 builder.Services.AddControllers();
-builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IOrganizerRepository, OrganizerRepository>();
+builder.Services.AddScoped<ISportEventsRepository, SportEventRepository>();
+builder.Services.AddScoped<IUserBLL, UserBLL>();
+builder.Services.AddScoped<IOrganizersBLL, OrganizersBLL>();
+builder.Services.AddScoped<ISportEventsBLL, SportEventsBLL>();
 builder.Services.AddScoped<ILoggerManager, LoggerManager>();
-builder.Services.AddScoped<IServiceManager, ServiceManager>();
 //builder.Services.AddScoped<IMapper, Mapper>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var mapping = new MapperConfiguration(mc =>

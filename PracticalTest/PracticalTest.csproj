@@ -29,6 +29,7 @@
     <ProjectReference Include="..\PracticalTest.BLL\PracticalTest.BLL.csproj" />
     <ProjectReference Include="..\PracticalTest.BusinessObjects\PracticalTest.BusinessObjects.csproj" />
     <ProjectReference Include="..\PracticalTest.Contracts\PracticalTest.Contracts.csproj" />
+    <ProjectReference Include="..\PracticalTest.DAL\PracticalTest.DAL.csproj" />
   </ItemGroup>
 
 </Project>
