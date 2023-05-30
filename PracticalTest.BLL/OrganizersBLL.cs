@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
-using PracticalTest.Contracts.Service;
+using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PracticalTest.BLL
 {
-    public class OrganizersBLL : IOrganizersService
+    public class OrganizersBLL : IOrganizersBLL
     {
         private readonly IOrganizerRepository _organizerRepository;
         private readonly IMapper _mapper;

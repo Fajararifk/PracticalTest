@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PracticalTest.Contracts.Service
+namespace PracticalTest.Contracts.BLL
 {
     public interface IUserBLL
     {

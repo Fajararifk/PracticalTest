@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PracticalTest.Contracts.Service
+namespace PracticalTest.Contracts.BLL
 {
-    public interface ISportEventsService
+    public interface ISportEventsBLL
     {
         Task<IEnumerable<SportEventsDTO>> GetAllSportEvents();
         Task<SportEventsDTO> GetSportEvents(int id);

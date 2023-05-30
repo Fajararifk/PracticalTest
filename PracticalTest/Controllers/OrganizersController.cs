@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
-using PracticalTest.Contracts.Service;
+using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
 using System.Xml.Linq;
 

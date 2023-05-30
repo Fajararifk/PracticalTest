@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
-using PracticalTest.Contracts.Service;
+using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
 using System;
 using System.Collections.Generic;
@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace PracticalTest.BLL
 {
-    public class SportEventsService :  ISportEventsService
+    public class SportEventsBLL :  ISportEventsBLL
     {
         private readonly ISportEventsRepository _sportEventsRepository;
         private readonly IMapper _mapper;
 
-        public SportEventsService(ISportEventsRepository sportEventsRepository, IMapper mapper)
+        public SportEventsBLL(ISportEventsRepository sportEventsRepository, IMapper mapper)
         {
             _sportEventsRepository = sportEventsRepository;
             _mapper = mapper;
