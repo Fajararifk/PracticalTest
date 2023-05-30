@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticalTest.Contracts", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticalTest.DTO", "PracticalTest.DTO\PracticalTest.DTO.csproj", "{CE3615ED-5D34-4C7A-A33E-B59D821A08FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticalTest.DAL", "PracticalTest.DAL\PracticalTest.DAL.csproj", "{4704E4F8-767E-481C-A237-A974A028E2B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{CE3615ED-5D34-4C7A-A33E-B59D821A08FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE3615ED-5D34-4C7A-A33E-B59D821A08FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE3615ED-5D34-4C7A-A33E-B59D821A08FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4704E4F8-767E-481C-A237-A974A028E2B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4704E4F8-767E-481C-A237-A974A028E2B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4704E4F8-767E-481C-A237-A974A028E2B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4704E4F8-767E-481C-A237-A974A028E2B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
