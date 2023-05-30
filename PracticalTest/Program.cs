@@ -1,10 +1,13 @@
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using PracticalTest.BLL;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.DAL;
+using PracticalTest.DTO;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +19,13 @@ opt.AddPolicy("CorsPolicy", builder =>
     .AllowAnyMethod()
     .AllowAnyHeader()
 ));*/
-builder.Services.AddControllers();
+/*builder.Services.AddControllers()
+    .AddFluentValidation(opt =>
+    {
+        opt.ImplicitlyValidateChildProperties = true;
+        opt.ImplicitlyValidateRootCollectionElements = true;
+    });*/
+builder.Services.AddTransient<IValidator<SportEvents>, SportEventsValidator>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IOrganizerRepository, OrganizerRepository>();
 builder.Services.AddScoped<ISportEventsRepository, SportEventRepository>();
@@ -61,6 +70,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 

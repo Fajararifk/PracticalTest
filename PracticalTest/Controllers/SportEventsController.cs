@@ -63,6 +63,7 @@ namespace PracticalTest.Controllers
                 _logger.LogInformation("name object is null");
                 return BadRequest("name object is null");
             }
+            _sportEventsBLL.SaveSportEvents(sportEventsDTO);
             _sportEventsBLL.Insert(sportEventsDTO);
             return Ok(sportEventsDTO);
         }
@@ -87,6 +88,8 @@ namespace PracticalTest.Controllers
                 return BadRequest("id object is null");
             }
             var sportEvents = await _sportEventsBLL.GetSportEventsAsync(id);
+
+            _sportEventsBLL.SaveSportEvents(sportEvents);
             _sportEventsBLL.Edit(sportEvents);
             return Ok(sportEvents);
         }

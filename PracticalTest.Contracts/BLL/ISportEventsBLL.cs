@@ -14,5 +14,6 @@ namespace PracticalTest.Contracts.BLL
         void Insert(SportEventsDTO sportEventsDTO);
         void Edit(SportEventsDTO sportEventsDTO);
         void Delete(SportEventsDTO sportEventsDTO);
+        SportEventsDTO SaveSportEvents(SportEventsDTO sportEventsDTO);
     }
 }

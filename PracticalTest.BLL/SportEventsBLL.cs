@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation;
 
 namespace PracticalTest.BLL
 {
@@ -60,6 +61,18 @@ namespace PracticalTest.BLL
                 .Map<SportEvents>(userDTO);
             _sportEventsRepository.Insert(sportEventVM);
             _sportEventsRepository.Save();
+        }
+
+        public SportEventsDTO SaveSportEvents(SportEventsDTO sportEventsDTO)
+        {
+            var validationSportEvents = new SportEventsValidator();
+            var sportEventVM = _mapper.Map<SportEvents>(sportEventsDTO);
+            var validationResult = validationSportEvents.Validate(sportEventVM);
+            if(validationResult.Errors.Count > 0)
+            {
+                throw new ValidationException((IEnumerable<FluentValidation.Results.ValidationFailure>)validationResult);
+            }
+            return sportEventsDTO;
         }
     }
 }
