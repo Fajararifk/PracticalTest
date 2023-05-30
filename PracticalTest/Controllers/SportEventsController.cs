@@ -30,7 +30,7 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var users = await _sportEventsBLL.GetAllSportEvents();
+                var users = await _sportEventsBLL.GetAllSportEventsAsync();
  
                 return Ok(users);
             }
@@ -50,7 +50,7 @@ namespace PracticalTest.Controllers
             }
             else
             {
-                var users = await _sportEventsBLL.GetSportEvents(id);
+                var users = await _sportEventsBLL.GetSportEventsAsync(id);
                 return Ok(users);
             }
         }
@@ -74,7 +74,7 @@ namespace PracticalTest.Controllers
                 _logger.LogError("id object is null");
                 return BadRequest("id object is null");
             }
-            var sportEvents = await _sportEventsBLL.GetSportEvents(id);
+            var sportEvents = await _sportEventsBLL.GetSportEventsAsync(id);
             _sportEventsBLL.Delete(sportEvents);
             return Ok(sportEvents);
         }
@@ -86,7 +86,7 @@ namespace PracticalTest.Controllers
                 _logger.LogError("id object is null");
                 return BadRequest("id object is null");
             }
-            var sportEvents = await _sportEventsBLL.GetSportEvents(id);
+            var sportEvents = await _sportEventsBLL.GetSportEventsAsync(id);
             _sportEventsBLL.Edit(sportEvents);
             return Ok(sportEvents);
         }

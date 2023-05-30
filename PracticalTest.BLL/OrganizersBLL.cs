@@ -34,16 +34,16 @@ namespace PracticalTest.BLL
             _organizerRepository.Save();
         }
 
-        public async Task<IEnumerable<OrganizerDTO>> GetAllOrganizers()
+        public async Task<IEnumerable<OrganizerDTO>> GetAllOrganizersAsync()
         {
-            var orgVM = await _organizerRepository.GetAllOrganizer();
+            var orgVM = await _organizerRepository.GetAllOrganizerAsync();
             var orgDTO = _mapper.Map<IEnumerable<OrganizerDTO>>(orgVM);
             return orgDTO;
         }
 
-        public async Task<OrganizerDTO> GetOrganizers(int id)
+        public async Task<OrganizerDTO> GetOrganizersAsync(int id)
         {
-            var orgVM = await _organizerRepository.GetOrganizerById(id);
+            var orgVM = await _organizerRepository.GetOrganizerByIdAsync(id);
             var orgDTO = _mapper.Map<OrganizerDTO>(orgVM);
             return orgDTO;
         }

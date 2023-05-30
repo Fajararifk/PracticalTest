@@ -9,8 +9,8 @@ namespace PracticalTest.Contracts.BLL
 {
     public interface IOrganizersBLL
     {
-        Task<IEnumerable<OrganizerDTO>> GetAllOrganizers();
-        Task<OrganizerDTO> GetOrganizers(int Id);
+        Task<IEnumerable<OrganizerDTO>> GetAllOrganizersAsync();
+        Task<OrganizerDTO> GetOrganizersAsync(int Id);
         void Insert(OrganizerDTO OrganizerDTO);
         void Edit(OrganizerDTO OrganizerDTO);
         void Delete(OrganizerDTO OrganizerDTO);

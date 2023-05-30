@@ -9,8 +9,8 @@ namespace PracticalTest.Contracts
 {
     public interface IOrganizerRepository
     {
-        Task<IEnumerable<Organizers>> GetAllOrganizer();
-        Task<Organizers> GetOrganizerById(int id);
+        Task<IEnumerable<Organizers>> GetAllOrganizerAsync();
+        Task<Organizers> GetOrganizerByIdAsync(int id);
         void Insert(Organizers organizer);
         void Edit(Organizers organizer);
         void Remove(Organizers organizer);

@@ -9,8 +9,8 @@ namespace PracticalTest.Contracts.BLL
 {
     public interface ISportEventsBLL
     {
-        Task<IEnumerable<SportEventsDTO>> GetAllSportEvents();
-        Task<SportEventsDTO> GetSportEvents(int id);
+        Task<IEnumerable<SportEventsDTO>> GetAllSportEventsAsync();
+        Task<SportEventsDTO> GetSportEventsAsync(int id);
         void Insert(SportEventsDTO sportEventsDTO);
         void Edit(SportEventsDTO sportEventsDTO);
         void Delete(SportEventsDTO sportEventsDTO);

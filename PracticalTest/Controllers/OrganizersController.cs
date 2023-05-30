@@ -30,7 +30,7 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var users = await _organizersBLL.GetAllOrganizers();
+                var users = await _organizersBLL.GetAllOrganizersAsync();
  
                 return Ok(users);
             }
@@ -50,7 +50,7 @@ namespace PracticalTest.Controllers
             }
             else
             {
-                var users = await _organizersBLL.GetOrganizers(id);
+                var users = await _organizersBLL.GetOrganizersAsync(id);
                 return Ok(users);
             }
         }
@@ -74,7 +74,7 @@ namespace PracticalTest.Controllers
                 _logger.LogError("id object is null");
                 return BadRequest("id object is null");
             }
-            var organizers = await _organizersBLL.GetOrganizers(id);
+            var organizers = await _organizersBLL.GetOrganizersAsync(id);
             _organizersBLL.Delete(organizers);
             return Ok(organizers);
         }
@@ -86,7 +86,7 @@ namespace PracticalTest.Controllers
                 _logger.LogError("id object is null");
                 return BadRequest("id object is null");
             }
-            var organizers = await _organizersBLL.GetOrganizers(id);
+            var organizers = await _organizersBLL.GetOrganizersAsync(id);
             _organizersBLL.Edit(organizers);
             return Ok(organizers);
         }
