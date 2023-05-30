@@ -14,11 +14,11 @@ namespace PracticalTest.Controllers
     {
         private readonly PracticalTest_DBContext _context;
         private readonly IOrganizerRepository _repository;
-        private readonly ILoggerManager _logger;
+        private readonly ILogger<OrganizersController> _logger;
         private readonly IMapper _mapper;
         private readonly IOrganizersBLL _organizersBLL;
 
-        public OrganizersController(IOrganizersBLL organizersBLL, ILoggerManager logger, IMapper mapper)
+        public OrganizersController(IOrganizersBLL organizersBLL, ILogger<OrganizersController> logger, IMapper mapper)
         {
             _organizersBLL = organizersBLL;
             _logger = logger;
@@ -36,7 +36,7 @@ namespace PracticalTest.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(GetUser)} message : {ex}");
+                _logger.LogInformation($"{nameof(GetUser)} message : {ex}");
                 return StatusCode(500, "Internal Server Error");
             }
         }
@@ -45,7 +45,7 @@ namespace PracticalTest.Controllers
         {
             if (id == null)
             {
-                _logger.LogInfo($"Users with name : {id} doesn't exist");
+                _logger.LogInformation($"Users with name : {id} doesn't exist");
                 return NotFound();
             }
             else
@@ -60,7 +60,7 @@ namespace PracticalTest.Controllers
         {
             if (organizerDTO == null)
             {
-                _logger.LogError("name object is null");
+                _logger.LogInformation("name object is null");
                 return BadRequest("name object is null");
             }
             _organizersBLL.Insert(organizerDTO);
@@ -71,7 +71,7 @@ namespace PracticalTest.Controllers
         {
             if (id == null)
             {
-                _logger.LogError("id object is null");
+                _logger.LogInformation("id object is null");
                 return BadRequest("id object is null");
             }
             var organizers = await _organizersBLL.GetOrganizersAsync(id);
@@ -83,7 +83,7 @@ namespace PracticalTest.Controllers
         {
             if (id == null)
             {
-                _logger.LogError("id object is null");
+                _logger.LogInformation("id object is null");
                 return BadRequest("id object is null");
             }
             var organizers = await _organizersBLL.GetOrganizersAsync(id);
