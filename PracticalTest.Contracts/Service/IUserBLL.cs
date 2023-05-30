@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PracticalTest.Contracts.Service
 {
-    public interface IUserService
+    public interface IUserBLL
     {
         Task<IEnumerable<UserDTO>> GetAllUsers();
         Task<UserDTO> GetUsers(string name);

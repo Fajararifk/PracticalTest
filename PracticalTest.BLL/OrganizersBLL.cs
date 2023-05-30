@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace PracticalTest.BLL
 {
-    public class OrganizersService : IOrganizersService
+    public class OrganizersBLL : IOrganizersService
     {
         private readonly IOrganizerRepository _organizerRepository;
         private readonly IMapper _mapper;
-        public OrganizersService(IOrganizerRepository organizerRepository, IMapper mapper)
+        public OrganizersBLL(IOrganizerRepository organizerRepository, IMapper mapper)
         {
             _organizerRepository = organizerRepository;
             _mapper = mapper;

@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace PracticalTest.BLL
 {
-    public class UserService : IUserService
+    public class UserBLL : IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserBLL(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
