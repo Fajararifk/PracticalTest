@@ -14,5 +14,7 @@ namespace PracticalTest.Contracts
         void Insert(Organizers organizer);
         void Edit(Organizers organizer);
         void Remove(Organizers organizer);
+        void Save();
+        Task SaveAsync();
     }
 }

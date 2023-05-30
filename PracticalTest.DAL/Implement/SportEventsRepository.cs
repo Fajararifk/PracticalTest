@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PracticalTest.BusinessObjects;
+using PracticalTest.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PracticalTest.Contracts.Implement
+namespace PracticalTest.DAL
 {
     public class SportEventRepository : RepositoryBase<SportEvents>, ISportEventsRepository
     {
@@ -37,5 +38,8 @@ namespace PracticalTest.Contracts.Implement
         {
             Delete(sportEvents);
         }
+        public void Save() => _dbContext.SaveChanges();
+
+        public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
     }
 }

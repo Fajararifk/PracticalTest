@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PracticalTest.BusinessObjects;
+using PracticalTest.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PracticalTest.Contracts.Implement
+namespace PracticalTest.DAL
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {

@@ -14,5 +14,7 @@ namespace PracticalTest.Contracts
         void Insert(User user);
         void Edit(User user);
         void Remove(User user);
+        void Save();
+        Task SaveAsync();
     }
 }

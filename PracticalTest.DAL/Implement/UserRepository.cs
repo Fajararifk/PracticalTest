@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PracticalTest.BusinessObjects;
+using PracticalTest.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PracticalTest.Contracts.Implement
+namespace PracticalTest.DAL
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
@@ -33,5 +34,8 @@ namespace PracticalTest.Contracts.Implement
         {
             Delete(user);
         }
+        public void Save() => _dbContext.SaveChanges();
+
+        public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
     }
 }
