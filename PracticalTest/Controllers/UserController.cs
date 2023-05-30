@@ -13,14 +13,14 @@ namespace PracticalTest.Controllers
     public class UserController : Controller
     {
         private readonly PracticalTest_DBContext _context;
-        private readonly IRepositoryManager _repository;
+        private readonly IUserRepository _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        private readonly IServiceManager _serviceManager;
+        private readonly IUserBLL _userBLL;
 
-        public UserController(IServiceManager serviceManager, ILoggerManager logger, IMapper mapper)
+        public UserController(IUserBLL userBLL, ILoggerManager logger, IMapper mapper)
         {
-            _serviceManager = serviceManager;
+            _userBLL = userBLL;
             _logger = logger;
             _mapper = mapper;
         }
@@ -30,7 +30,7 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var users = await _serviceManager.UserService.GetAllUsers();
+                var users = await _userBLL.GetAllUsers();
  
                 return Ok(users);
             }
@@ -50,7 +50,7 @@ namespace PracticalTest.Controllers
             }
             else
             {
-                var users = await _serviceManager.UserService.GetUsers(name);
+                var users = await _userBLL.GetUsers(name);
                 return Ok(users);
             }
         }
@@ -63,7 +63,7 @@ namespace PracticalTest.Controllers
                 _logger.LogError("name object is null");
                 return BadRequest("name object is null");
             }
-            _serviceManager.UserService.Insert(name);
+            _userBLL.Insert(name);
             return Ok(name);
         }
         [HttpDelete("{firstName}")]
@@ -74,8 +74,8 @@ namespace PracticalTest.Controllers
                 _logger.LogError("name object is null");
                 return BadRequest("name object is null");
             }
-            var user = await _serviceManager.UserService.GetUsers(name);
-            _serviceManager.UserService.Delete(user);
+            var user = await _userBLL.GetUsers(name);
+            _userBLL.Delete(user);
             return View(user);
         }
         [HttpPut("{firstName}")]
@@ -86,8 +86,8 @@ namespace PracticalTest.Controllers
                 _logger.LogError("name object is null");
                 return BadRequest("name object is null");
             }
-            var user = await _serviceManager.UserService.GetUsers(name);
-            _serviceManager.UserService.Edit(user);
+            var user = await _userBLL.GetUsers(name);
+            _userBLL.Edit(user);
             return View(user);
         }
     }

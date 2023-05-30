@@ -13,14 +13,14 @@ namespace PracticalTest.Controllers
     public class OrganizersController : Controller
     {
         private readonly PracticalTest_DBContext _context;
-        private readonly IRepositoryManager _repository;
+        private readonly IOrganizerRepository _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        private readonly IServiceManager _serviceManager;
+        private readonly IOrganizersBLL _organizersBLL;
 
-        public OrganizersController(IServiceManager serviceManager, ILoggerManager logger, IMapper mapper)
+        public OrganizersController(IOrganizersBLL organizersBLL, ILoggerManager logger, IMapper mapper)
         {
-            _serviceManager = serviceManager;
+            _organizersBLL = organizersBLL;
             _logger = logger;
             _mapper = mapper;
         }
@@ -30,7 +30,7 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var users = await _serviceManager.OrganizersService.GetAllOrganizers();
+                var users = await _organizersBLL.GetAllOrganizers();
  
                 return Ok(users);
             }
@@ -50,7 +50,7 @@ namespace PracticalTest.Controllers
             }
             else
             {
-                var users = await _serviceManager.OrganizersService.GetOrganizers(id);
+                var users = await _organizersBLL.GetOrganizers(id);
                 return Ok(users);
             }
         }
@@ -63,7 +63,7 @@ namespace PracticalTest.Controllers
                 _logger.LogError("name object is null");
                 return BadRequest("name object is null");
             }
-            _serviceManager.OrganizersService.Insert(organizerDTO);
+            _organizersBLL.Insert(organizerDTO);
             return Ok(organizerDTO);
         }
         [HttpDelete("{id}")]
@@ -74,9 +74,8 @@ namespace PracticalTest.Controllers
                 _logger.LogError("id object is null");
                 return BadRequest("id object is null");
             }
-            var organizers = await _serviceManager.OrganizersService
-                .GetOrganizers(id);
-            _serviceManager.OrganizersService.Delete(organizers);
+            var organizers = await _organizersBLL.GetOrganizers(id);
+            _organizersBLL.Delete(organizers);
             return Ok(organizers);
         }
         [HttpPut("{id}")]
@@ -87,9 +86,8 @@ namespace PracticalTest.Controllers
                 _logger.LogError("id object is null");
                 return BadRequest("id object is null");
             }
-            var organizers = await _serviceManager.OrganizersService
-                .GetOrganizers(id);
-            _serviceManager.OrganizersService.Edit(organizers);
+            var organizers = await _organizersBLL.GetOrganizers(id);
+            _organizersBLL.Edit(organizers);
             return Ok(organizers);
         }
     }
