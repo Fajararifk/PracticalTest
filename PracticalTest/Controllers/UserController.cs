@@ -5,12 +5,15 @@ using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
 using PracticalTest.DTO.Create;
+using System.Net.Mime;
 using System.Xml.Linq;
 
 namespace PracticalTest.Controllers
 {
     [ApiController]
     [Route("api/v1/users")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     public class UserController : Controller
     {
         private readonly PracticalTest_DBContext _context;
@@ -27,6 +30,10 @@ namespace PracticalTest.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUser()
         {
             try
@@ -42,6 +49,10 @@ namespace PracticalTest.Controllers
             }
         }
         [HttpGet("{id}", Name = "userbyFirstName")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUsers(int id)
         {
             if (id == null)
@@ -57,6 +68,10 @@ namespace PracticalTest.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CreateUsers(UserCreateDTO name)
         {
             if (name == null)
@@ -68,6 +83,10 @@ namespace PracticalTest.Controllers
             return Ok(name);
         }
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUsers(int id)
         {
             if (id == null)
@@ -80,6 +99,10 @@ namespace PracticalTest.Controllers
             return View(user);
         }
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateUsers([FromBody]int id)
         {
             if (id == null)

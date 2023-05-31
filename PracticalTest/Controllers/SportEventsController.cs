@@ -17,6 +17,7 @@ using PracticalTest.DTO.Create;
 using RestSharp;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Xml.Linq;
@@ -26,6 +27,8 @@ namespace PracticalTest.Controllers
 {
     [ApiController]
     [Route("api/v1/sportevents")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     public class SportEventsController : Controller
     {
         private readonly PracticalTest_DBContext _context;
@@ -44,6 +47,10 @@ namespace PracticalTest.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetSportEvents(int page, int perPage, int organizerID)
         {
             try
@@ -77,6 +84,10 @@ namespace PracticalTest.Controllers
             }
         }
         [HttpGet("{id}", Name = "userbyidEvents")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetSportEvents(int id)
         {
             try
@@ -111,6 +122,10 @@ namespace PracticalTest.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CreateSportEvents(SportEventsCreateAPIDTO sportEventsDTO)
         {
             try
@@ -148,6 +163,10 @@ namespace PracticalTest.Controllers
             }
         }
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteSportEvents(int id)
         {
             try
@@ -179,6 +198,10 @@ namespace PracticalTest.Controllers
             }
         }
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateSportEvents(int id, [FromBody] SportEventsCreateAPIDTO sportEventsCreateDTO)
         {
             try

@@ -10,6 +10,7 @@ using PracticalTest.DTO;
 using PracticalTest.DTO.Create;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -19,6 +20,8 @@ namespace PracticalTest.Controllers
 {
     [ApiController]
     [Route("api/v1/organizers")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     public class OrganizersController : Controller
     {
         private readonly PracticalTest_DBContext _context;
@@ -33,8 +36,16 @@ namespace PracticalTest.Controllers
             _logger = logger;
             _mapper = mapper;
         }
-
+        /// <summary>
+        /// getAllOrganizers.
+        /// </summary>
+        /// <response code="200">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllOrganizers(int page, int perPage)
         {
             try
@@ -67,7 +78,14 @@ namespace PracticalTest.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        /// <summary>
+        /// getOrganizer.
+        /// </summary>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetOrganizers(int id)
         {
             try
@@ -100,8 +118,14 @@ namespace PracticalTest.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        /// <summary>
+        /// createOrganizer.
+        /// </summary>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CreateOrganizers(OrganizerCreateDTO organizerDTO)
         {
             try
@@ -138,7 +162,14 @@ namespace PracticalTest.Controllers
             
 
         }
+        /// <summary>
+        /// deleteOrganizer.
+        /// </summary>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteOrganizers(int id)
         {
             try
@@ -169,7 +200,14 @@ namespace PracticalTest.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        /// <summary>
+        /// updateOrganizer.
+        /// </summary>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateOrganizers(int id, [FromBody] OrganizerCreateDTO organizerCreateDTO)
         {
             try
