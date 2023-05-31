@@ -3,7 +3,9 @@ using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
+using PracticalTest.DTO.Create;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,14 +43,14 @@ namespace PracticalTest.BLL
             return userDTO;
         }
 
-        public async Task<UserDTO> GetUsersAsync(string name)
+        public async Task<UserDTO> GetUsersAsync(int id)
         {
-            var userVM = await _userRepository.GetUserByNameAsync(name);
+            var userVM = await _userRepository.GetUserByNameAsync(id);
             var userDTO = _mapper.Map<UserDTO>(userVM);
             return userDTO;
         }
 
-        public void Insert(UserDTO userDTO)
+        public void Insert(UserCreateDTO userDTO)
         {
             var userVM = _mapper.Map<User>(userDTO);
             _userRepository.Insert(userVM);

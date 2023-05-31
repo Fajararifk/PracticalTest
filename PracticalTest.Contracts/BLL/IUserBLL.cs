@@ -1,4 +1,5 @@
 ﻿using PracticalTest.DTO;
+using PracticalTest.DTO.Create;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,8 @@ namespace PracticalTest.Contracts.BLL
     public interface IUserBLL
     {
         Task<IEnumerable<UserDTO>> GetAllUsersAsync();
-        Task<UserDTO> GetUsersAsync(string name);
-        void Insert(UserDTO userDTO);
+        Task<UserDTO>GetUsersAsync(int id);
+        void Insert(UserCreateDTO userDTO);
         void Edit(UserDTO userDTO);
         void Delete(UserDTO userDTO);
     }

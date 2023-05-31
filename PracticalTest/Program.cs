@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using PracticalTest.BLL;
 using PracticalTest.BusinessObjects;
@@ -19,12 +20,15 @@ opt.AddPolicy("CorsPolicy", builder =>
     .AllowAnyMethod()
     .AllowAnyHeader()
 ));*/
-/*builder.Services.AddControllers()
+builder.Services.AddControllers()
     .AddFluentValidation(opt =>
     {
         opt.ImplicitlyValidateChildProperties = true;
         opt.ImplicitlyValidateRootCollectionElements = true;
-    });*/
+    });
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
+    opt => builder.Configuration.Bind("JWTSettings", opt));
 builder.Services.AddTransient<IValidator<SportEvents>, SportEventsValidator>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IOrganizerRepository, OrganizerRepository>();

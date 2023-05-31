@@ -1,4 +1,5 @@
 ﻿using PracticalTest.DTO;
+using PracticalTest.DTO.Create;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace PracticalTest.Contracts.BLL
     {
         Task<IEnumerable<SportEventsDTO>> GetAllSportEventsAsync();
         Task<SportEventsDTO> GetSportEventsAsync(int id);
-        void Insert(SportEventsDTO sportEventsDTO);
+        void Insert(SportEventsCreateDTO sportEventsDTO);
         void Edit(SportEventsDTO sportEventsDTO);
         void Delete(SportEventsDTO sportEventsDTO);
-        SportEventsDTO SaveSportEvents(SportEventsDTO sportEventsDTO);
+        SportEventsCreateDTO SaveSportEvents(SportEventsCreateDTO sportEventsDTO);
     }
 }

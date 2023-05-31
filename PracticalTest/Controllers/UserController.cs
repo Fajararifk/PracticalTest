@@ -4,6 +4,7 @@ using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
+using PracticalTest.DTO.Create;
 using System.Xml.Linq;
 
 namespace PracticalTest.Controllers
@@ -40,23 +41,23 @@ namespace PracticalTest.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
-        [HttpGet("{firstName}", Name = "userbyFirstName")]
-        public async Task<IActionResult> GetUsers(string name)
+        [HttpGet("{id}", Name = "userbyFirstName")]
+        public async Task<IActionResult> GetUsers(int id)
         {
-            if (name == null)
+            if (id == null)
             {
-                _logger.LogInformation($"Users with name : {name} doesn't exist");
+                _logger.LogInformation($"Users with id : {id} doesn't exist");
                 return NotFound();
             }
             else
             {
-                var users = await _userBLL.GetUsersAsync(name);
+                var users = await _userBLL.GetUsersAsync(id);
                 return Ok(users);
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUsers(UserDTO name)
+        public async Task<IActionResult> CreateUsers(UserCreateDTO name)
         {
             if (name == null)
             {
@@ -66,27 +67,27 @@ namespace PracticalTest.Controllers
             _userBLL.Insert(name);
             return Ok(name);
         }
-        [HttpDelete("{firstName}")]
-        public async Task<IActionResult> DeleteUsers(string name)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUsers(int id)
         {
-            if (name == null)
+            if (id == null)
             {
                 _logger.LogInformation("name object is null");
                 return BadRequest("name object is null");
             }
-            var user = await _userBLL.GetUsersAsync(name);
+            var user = await _userBLL.GetUsersAsync(id);
             _userBLL.Delete(user);
             return View(user);
         }
-        [HttpPut("{firstName}")]
-        public async Task<IActionResult> UpdateUsers([FromBody]string name)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUsers([FromBody]int id)
         {
-            if (name == null)
+            if (id == null)
             {
                 _logger.LogInformation("name object is null");
                 return BadRequest("name object is null");
             }
-            var user = await _userBLL.GetUsersAsync(name);
+            var user = await _userBLL.GetUsersAsync(id);
             _userBLL.Edit(user);
             return View(user);
         }

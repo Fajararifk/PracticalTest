@@ -12,6 +12,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Razor;
 using PracticalTest.BLL.Exceptions;
+using PracticalTest.DTO.Create;
 
 namespace PracticalTest.BLL
 {
@@ -93,7 +94,7 @@ namespace PracticalTest.BLL
             
         }
 
-        public void Insert(SportEventsDTO userDTO)
+        public void Insert(SportEventsCreateDTO userDTO)
         {
             try
             {
@@ -108,7 +109,7 @@ namespace PracticalTest.BLL
             }
         }
 
-        public SportEventsDTO SaveSportEvents(SportEventsDTO sportEventsDTO)
+        public SportEventsCreateDTO SaveSportEvents(SportEventsCreateDTO sportEventsDTO)
         {
             var validationSportEvents = new SportEventsValidator();
             var sportEventVM = _mapper.Map<SportEvents>(sportEventsDTO);
