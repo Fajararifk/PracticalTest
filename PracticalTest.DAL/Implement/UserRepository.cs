@@ -18,9 +18,9 @@ namespace PracticalTest.DAL
         {
             return await FindAll().ToListAsync();
         }
-        public async Task<User> GetUserByNameAsync(string name)
+        public async Task<User> GetUserByNameAsync(int id)
         {
-            return await FindByCondition(x => x.FirstName.Equals(name)).FirstOrDefaultAsync();
+            return await FindByCondition(x => x.Id.Equals(id)).SingleOrDefaultAsync();
         }
         public void Insert(User user)
         {

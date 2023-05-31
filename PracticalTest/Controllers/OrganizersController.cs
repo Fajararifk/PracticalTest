@@ -1,9 +1,18 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
+using NuGet.Protocol;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
+using PracticalTest.DTO.Create;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Xml.Linq;
 
 namespace PracticalTest.Controllers
@@ -26,69 +35,173 @@ namespace PracticalTest.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUser()
+        public async Task<IActionResult> GetAllOrganizers(int page, int perPage)
         {
             try
             {
-                var users = await _organizersBLL.GetAllOrganizersAsync();
- 
-                return Ok(users);
+                var user = "far@voxteneooo.com";
+                var password = "Pass@w0rd1@";
+                var clientLogin = new HttpClient();
+                clientLogin.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/users/");
+                var login = new User() { Email = user, Password = password };
+                await clientLogin.PostAsJsonAsync("login", login);
+                var handler = new HttpClientHandler()
+                {
+                    AllowAutoRedirect = false
+                };
+                var client = new HttpClient(handler);
+
+                var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLXNwb3J0LWV2ZW50cy5waHA2LTAyLnRlc3Qudm94dGVuZW8uY29tXC9hcGlcL3YxXC91c2Vyc1wvbG9naW4iLCJpYXQiOjE2ODU0NTQxMzAsImV4cCI6MTY4NTU0MDUzMCwibmJmIjoxNjg1NDU0MTMwLCJqdGkiOiJhN1N2ZXNaa2NOUkdzWVJJIiwic3ViIjoyMDE1LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.ifRQc5PZD2eEZROROMjFtIJ48Z0ZMpstGpAuzJmTQ4Y"; //await HttpContext.GetTokenAsync("");
+                var authheader = new AuthenticationHeaderValue("Bearer", accessToken);
+                client.DefaultRequestHeaders.Authorization = authheader;
+                client.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = await client.GetAsync($"organizers?page={page}&perPage={perPage}");
+                var result = response.Content.ReadAsStringAsync().Result;
+                var parse = JsonObject.Parse(result);
+                return Ok(parse);
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
-                _logger.LogInformation($"{nameof(GetUser)} message : {ex}");
-                return StatusCode(500, "Internal Server Error");
+                _logger.LogInformation($"{nameof(GetAllOrganizers)} message : {ex}");
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrganizers(int id)
         {
-            if (id == null)
+            try
             {
-                _logger.LogInformation($"Users with name : {id} doesn't exist");
-                return NotFound();
+                var user = "far@voxteneooo.com";
+                var password = "Pass@w0rd1@";
+                var clientLogin = new HttpClient();
+                clientLogin.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/users/");
+                var login = new User() { Email = user, Password = password };
+                await clientLogin.PostAsJsonAsync("login", login);
+                var handler = new HttpClientHandler()
+                {
+                    AllowAutoRedirect = false
+                };
+                var client = new HttpClient(handler);
+
+                var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLXNwb3J0LWV2ZW50cy5waHA2LTAyLnRlc3Qudm94dGVuZW8uY29tXC9hcGlcL3YxXC91c2Vyc1wvbG9naW4iLCJpYXQiOjE2ODU0NTQxMzAsImV4cCI6MTY4NTU0MDUzMCwibmJmIjoxNjg1NDU0MTMwLCJqdGkiOiJhN1N2ZXNaa2NOUkdzWVJJIiwic3ViIjoyMDE1LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.ifRQc5PZD2eEZROROMjFtIJ48Z0ZMpstGpAuzJmTQ4Y"; //await HttpContext.GetTokenAsync("");
+                var authheader = new AuthenticationHeaderValue("Bearer", accessToken);
+                client.DefaultRequestHeaders.Authorization = authheader;
+                client.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = await client.GetAsync($"organizers/{id}");
+                var result = response.Content.ReadAsStringAsync().Result;
+                var parse = JsonObject.Parse(result);
+                return Ok(parse);
             }
-            else
+            catch (Exception ex)
             {
-                var users = await _organizersBLL.GetOrganizersAsync(id);
-                return Ok(users);
+                _logger.LogInformation($"{nameof(GetOrganizers)} message : {ex}");
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrganizers(OrganizerDTO organizerDTO)
+        public async Task<IActionResult> CreateOrganizers(OrganizerCreateDTO organizerDTO)
         {
-            if (organizerDTO == null)
+            try
             {
-                _logger.LogInformation("name object is null");
-                return BadRequest("name object is null");
+                var user = "far@voxteneooo.com";
+                var password = "Pass@w0rd1@";
+                var clientLogin = new HttpClient();
+                clientLogin.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/users/");
+                var login = new User() { Email = user, Password = password };
+                await clientLogin.PostAsJsonAsync("login", login);
+                var handler = new HttpClientHandler()
+                {
+                    AllowAutoRedirect = false
+                };
+                var client = new HttpClient(handler);
+
+                var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLXNwb3J0LWV2ZW50cy5waHA2LTAyLnRlc3Qudm94dGVuZW8uY29tXC9hcGlcL3YxXC91c2Vyc1wvbG9naW4iLCJpYXQiOjE2ODU0NTQxMzAsImV4cCI6MTY4NTU0MDUzMCwibmJmIjoxNjg1NDU0MTMwLCJqdGkiOiJhN1N2ZXNaa2NOUkdzWVJJIiwic3ViIjoyMDE1LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.ifRQc5PZD2eEZROROMjFtIJ48Z0ZMpstGpAuzJmTQ4Y"; //await HttpContext.GetTokenAsync("");
+                var authheader = new AuthenticationHeaderValue("Bearer", accessToken);
+                client.DefaultRequestHeaders.Authorization = authheader;
+                client.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var JsonData = JsonConvert.SerializeObject(organizerDTO);
+                var content = new StringContent(JsonData, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync($"organizers", content);
+                var result = response.Content.ReadAsStringAsync().Result;
+                var parse = JsonObject.Parse(result);
+                return Ok(parse);
             }
-            _organizersBLL.Insert(organizerDTO);
-            return Ok(organizerDTO);
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"{nameof(CreateOrganizers)} message : {ex}");
+                return BadRequest(ex.Message);
+            }
+            
+
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrganizers(int id)
         {
-            if (id == null)
+            try
             {
-                _logger.LogInformation("id object is null");
-                return BadRequest("id object is null");
+                var user = "far@voxteneooo.com";
+                var password = "Pass@w0rd1@";
+                var clientLogin = new HttpClient();
+                clientLogin.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/users/");
+                var login = new User() { Email = user, Password = password };
+                await clientLogin.PostAsJsonAsync("login", login);
+                var handler = new HttpClientHandler()
+                {
+                    AllowAutoRedirect = false
+                };
+                var client = new HttpClient(handler);
+
+                var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLXNwb3J0LWV2ZW50cy5waHA2LTAyLnRlc3Qudm94dGVuZW8uY29tXC9hcGlcL3YxXC91c2Vyc1wvbG9naW4iLCJpYXQiOjE2ODU0NTQxMzAsImV4cCI6MTY4NTU0MDUzMCwibmJmIjoxNjg1NDU0MTMwLCJqdGkiOiJhN1N2ZXNaa2NOUkdzWVJJIiwic3ViIjoyMDE1LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.ifRQc5PZD2eEZROROMjFtIJ48Z0ZMpstGpAuzJmTQ4Y"; //await HttpContext.GetTokenAsync("");
+                var authheader = new AuthenticationHeaderValue("Bearer", accessToken);
+                client.DefaultRequestHeaders.Authorization = authheader;
+                client.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = await client.DeleteAsync($"organizers/{id}");
+                return Ok();
             }
-            var organizers = await _organizersBLL.GetOrganizersAsync(id);
-            _organizersBLL.Delete(organizers);
-            return Ok(organizers);
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"{nameof(DeleteOrganizers)} message : {ex}");
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrganizers(int id)
+        public async Task<IActionResult> UpdateOrganizers(int id, [FromBody] OrganizerCreateDTO organizerCreateDTO)
         {
-            if (id == null)
+            try
             {
-                _logger.LogInformation("id object is null");
-                return BadRequest("id object is null");
+                var user = "far@voxteneooo.com";
+                var password = "Pass@w0rd1@";
+                var clientLogin = new HttpClient();
+                clientLogin.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/users/");
+                var login = new User() { Email = user, Password = password };
+                await clientLogin.PostAsJsonAsync("login", login);
+                var handler = new HttpClientHandler()
+                {
+                    AllowAutoRedirect = false
+                };
+                var client = new HttpClient(handler);
+
+                var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLXNwb3J0LWV2ZW50cy5waHA2LTAyLnRlc3Qudm94dGVuZW8uY29tXC9hcGlcL3YxXC91c2Vyc1wvbG9naW4iLCJpYXQiOjE2ODU0NTQxMzAsImV4cCI6MTY4NTU0MDUzMCwibmJmIjoxNjg1NDU0MTMwLCJqdGkiOiJhN1N2ZXNaa2NOUkdzWVJJIiwic3ViIjoyMDE1LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.ifRQc5PZD2eEZROROMjFtIJ48Z0ZMpstGpAuzJmTQ4Y"; //await HttpContext.GetTokenAsync("");
+                var authheader = new AuthenticationHeaderValue("Bearer", accessToken);
+                client.DefaultRequestHeaders.Authorization = authheader;
+                client.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var JsonData = JsonConvert.SerializeObject(organizerCreateDTO);
+                var content = new StringContent(JsonData, Encoding.UTF8, "application/json");
+                var response = await client.PutAsync($"organizers/{id}", content);
+                var parse = JsonObject.Parse(JsonData);
+                return Ok(parse);
             }
-            var organizers = await _organizersBLL.GetOrganizersAsync(id);
-            _organizersBLL.Edit(organizers);
-            return Ok(organizers);
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"{nameof(UpdateOrganizers)} message : {ex}");
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

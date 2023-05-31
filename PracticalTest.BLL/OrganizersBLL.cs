@@ -3,6 +3,7 @@ using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
+using PracticalTest.DTO.Create;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace PracticalTest.BLL
             return orgDTO;
         }
 
-        public void Insert(OrganizerDTO userDTO)
+        public void Insert(OrganizerCreateDTO userDTO)
         {
             var orgVM = _mapper.Map<Organizers>(userDTO);
             _organizerRepository.Insert(orgVM);

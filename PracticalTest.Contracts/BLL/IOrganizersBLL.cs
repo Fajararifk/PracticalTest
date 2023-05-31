@@ -1,4 +1,5 @@
 ﻿using PracticalTest.DTO;
+using PracticalTest.DTO.Create;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace PracticalTest.Contracts.BLL
     {
         Task<IEnumerable<OrganizerDTO>> GetAllOrganizersAsync();
         Task<OrganizerDTO> GetOrganizersAsync(int Id);
-        void Insert(OrganizerDTO OrganizerDTO);
+        void Insert(OrganizerCreateDTO OrganizerDTO);
         void Edit(OrganizerDTO OrganizerDTO);
         void Delete(OrganizerDTO OrganizerDTO);
     }
