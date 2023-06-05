@@ -37,7 +37,7 @@ namespace PracticalTest.DAL
             _dbContext.Set<T>().AsNoTracking();
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> condition) =>
-            _dbContext.Set<T>().Where(condition).AsNoTracking();
+            _dbContext.Set<T>().Where(condition);
 
     }
 }

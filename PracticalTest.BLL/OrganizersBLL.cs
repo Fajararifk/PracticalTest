@@ -3,10 +3,12 @@ using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
+using PracticalTest.DTO.Create;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace PracticalTest.BLL
@@ -20,39 +22,37 @@ namespace PracticalTest.BLL
             _organizerRepository = organizerRepository;
             _mapper = mapper;
         }
-        public void Delete(OrganizerDTO organizerDTO)
+        public async Task<JsonNode> EditAsync(int id, OrganizerCreateDTO organizerCreateDTO)
         {
-            var orgVM = _mapper.Map<Organizers>(organizerDTO);
-            _organizerRepository.Remove(orgVM);
-            _organizerRepository.Save();
+            //var orgVM = _mapper.Map<Organizers>(userDTO);
+            var edit = await _organizerRepository.EditAsync(id, organizerCreateDTO);
+            return edit;
+        }
+        public Task<HttpResponseMessage> DeleteAsync(int id)
+        {
+            //var orgVM = _mapper.Map<Organizers>(id);
+            var delete = _organizerRepository.DeleteAsync(id);
+            return delete;
+        }
+        public async Task<JsonNode> GetAllOrganizersAsync(int page, int perPage)
+        {
+            var orgVM = await _organizerRepository.GetAllOrganizerAsync(page, perPage);
+            //var orgDTO = _mapper.Map<OrganizerDTO>(orgVM);
+            return orgVM;
         }
 
-        public void Edit(OrganizerDTO organizerDTO)
-        {
-            var orgVM = _mapper.Map<Organizers>(organizerDTO);
-            _organizerRepository.Edit(orgVM);
-            _organizerRepository.Save();
-        }
-
-        public async Task<IEnumerable<OrganizerDTO>> GetAllOrganizersAsync()
-        {
-            var orgVM = await _organizerRepository.GetAllOrganizerAsync();
-            var orgDTO = _mapper.Map<IEnumerable<OrganizerDTO>>(orgVM);
-            return orgDTO;
-        }
-
-        public async Task<OrganizerDTO> GetOrganizersAsync(int id)
+        public async Task<JsonNode> GetOrganizersAsync(int id)
         {
             var orgVM = await _organizerRepository.GetOrganizerByIdAsync(id);
-            var orgDTO = _mapper.Map<OrganizerDTO>(orgVM);
-            return orgDTO;
+            //var orgDTO = _mapper.Map<OrganizerDTO>(orgVM);
+            return orgVM;
         }
 
-        public void Insert(OrganizerDTO userDTO)
+        public async Task<JsonNode> InsertAsync(OrganizerCreateDTO organizerCreateDTO)
         {
-            var orgVM = _mapper.Map<Organizers>(userDTO);
-            _organizerRepository.Insert(orgVM);
-            _organizerRepository.Save();
+            //var orgVM = _mapper.Map<Organizers>(userDTO);
+            var create = await _organizerRepository.InsertAsync(organizerCreateDTO);
+            return create;
         }
     }
 }
