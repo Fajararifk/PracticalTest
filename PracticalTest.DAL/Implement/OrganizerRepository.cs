@@ -15,12 +15,12 @@ namespace PracticalTest.DAL
         {
         }
 
-        public async Task<IEnumerable<Organizers>> GetAllOrganizer()
+        public async Task<IEnumerable<Organizers>> GetAllOrganizerAsync()
         {
             return await FindAll().AsNoTracking().ToListAsync();
         }
 
-        public async Task<Organizers> GetOrganizerById(int id)
+        public async Task<Organizers> GetOrganizerByIdAsync(int id)
         {
             return await FindByCondition(x => x.Id.Equals(id)).SingleOrDefaultAsync();
         }

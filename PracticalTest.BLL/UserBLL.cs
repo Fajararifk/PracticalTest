@@ -34,16 +34,16 @@ namespace PracticalTest.BLL
             _userRepository.Save();
         }
 
-        public async Task<IEnumerable<UserDTO>> GetAllUsers()
+        public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
         {
-            var userVM = await _userRepository.GetAllUser();
+            var userVM = await _userRepository.GetAllUserAsync();
             var userDTO = _mapper.Map<IEnumerable<UserDTO>>(userVM);
             return userDTO;
         }
 
-        public async Task<UserDTO> GetUsers(string name)
+        public async Task<UserDTO> GetUsersAsync(string name)
         {
-            var userVM = await _userRepository.GetUserByName(name);
+            var userVM = await _userRepository.GetUserByNameAsync(name);
             var userDTO = _mapper.Map<UserDTO>(userVM);
             return userDTO;
         }

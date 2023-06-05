@@ -30,7 +30,7 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var users = await _userBLL.GetAllUsers();
+                var users = await _userBLL.GetAllUsersAsync();
  
                 return Ok(users);
             }
@@ -50,7 +50,7 @@ namespace PracticalTest.Controllers
             }
             else
             {
-                var users = await _userBLL.GetUsers(name);
+                var users = await _userBLL.GetUsersAsync(name);
                 return Ok(users);
             }
         }
@@ -74,7 +74,7 @@ namespace PracticalTest.Controllers
                 _logger.LogError("name object is null");
                 return BadRequest("name object is null");
             }
-            var user = await _userBLL.GetUsers(name);
+            var user = await _userBLL.GetUsersAsync(name);
             _userBLL.Delete(user);
             return View(user);
         }
@@ -86,7 +86,7 @@ namespace PracticalTest.Controllers
                 _logger.LogError("name object is null");
                 return BadRequest("name object is null");
             }
-            var user = await _userBLL.GetUsers(name);
+            var user = await _userBLL.GetUsersAsync(name);
             _userBLL.Edit(user);
             return View(user);
         }

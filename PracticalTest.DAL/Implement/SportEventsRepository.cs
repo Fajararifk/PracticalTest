@@ -14,12 +14,12 @@ namespace PracticalTest.DAL
         public SportEventRepository(PracticalTest_DBContext dbContext) : base(dbContext)
         {
         }
-        public async Task<IEnumerable<SportEvents>> GetAllSportEvents()
+        public async Task<IEnumerable<SportEvents>> GetAllSportEventsAsync()
         {
             return await FindAll().ToListAsync();
         }
 
-        public async Task<SportEvents> GetSportEventsById(int id)
+        public async Task<SportEvents> GetSportEventsByIdAsync(int id)
         {
             return await FindByCondition(x => x.Id.Equals(id)).SingleOrDefaultAsync();
         }

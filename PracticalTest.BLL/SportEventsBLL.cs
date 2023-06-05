@@ -38,17 +38,17 @@ namespace PracticalTest.BLL
             _sportEventsRepository.Save();
         }
 
-        public async Task<IEnumerable<SportEventsDTO>> GetAllSportEvents()
+        public async Task<IEnumerable<SportEventsDTO>> GetAllSportEventsAsync()
         {
-            var sportEventVM = await _sportEventsRepository.GetAllSportEvents();
+            var sportEventVM = await _sportEventsRepository.GetAllSportEventsAsync();
             var sportEventDTO = _mapper
                 .Map<IEnumerable<SportEventsDTO>>(sportEventVM);
             return sportEventDTO;
         }
 
-        public async Task<SportEventsDTO> GetSportEvents(int id)
+        public async Task<SportEventsDTO> GetSportEventsAsync(int id)
         {
-            var sportEventVM = await _sportEventsRepository.GetSportEventsById(id);
+            var sportEventVM = await _sportEventsRepository.GetSportEventsByIdAsync(id);
             var sportEventDTO = _mapper
                 .Map<SportEventsDTO>(sportEventVM);
             return sportEventDTO;

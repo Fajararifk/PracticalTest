@@ -9,8 +9,8 @@ namespace PracticalTest.Contracts
 {
     public interface ISportEventsRepository
     {
-        Task<IEnumerable<SportEvents>> GetAllSportEvents();
-        Task<SportEvents> GetSportEventsById(int id);
+        Task<IEnumerable<SportEvents>> GetAllSportEventsAsync();
+        Task<SportEvents> GetSportEventsByIdAsync(int id);
         void Insert(SportEvents sportEvents);
         void Edit(SportEvents sportEvents);
         void Remove(SportEvents sportEvents);

@@ -14,11 +14,11 @@ namespace PracticalTest.DAL
         public UserRepository(PracticalTest_DBContext dbContext) : base(dbContext)
         {
         }
-        public async Task<IEnumerable<User>> GetAllUser()
+        public async Task<IEnumerable<User>> GetAllUserAsync()
         {
             return await FindAll().ToListAsync();
         }
-        public async Task<User> GetUserByName(string name)
+        public async Task<User> GetUserByNameAsync(string name)
         {
             return await FindByCondition(x => x.FirstName.Equals(name)).FirstOrDefaultAsync();
         }
