@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using PracticalTest.BLL;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
@@ -32,3 +32,4 @@ namespace PracticalTest.BLL
         public ISportEventsService SportEventsService => _lazySportEventsService.Value;
     }
 }
+*/

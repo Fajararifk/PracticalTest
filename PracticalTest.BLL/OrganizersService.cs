@@ -13,37 +13,37 @@ namespace PracticalTest.BLL
 {
     public class OrganizersService : IOrganizersService
     {
-        private readonly IRepositoryManager _repositoryManager;
+        private readonly IOrganizerRepository _organizerRepository;
         private readonly IMapper _mapper;
-        public OrganizersService(IRepositoryManager repositoryManager, IMapper mapper)
+        public OrganizersService(IOrganizerRepository organizerRepository, IMapper mapper)
         {
-            _repositoryManager = repositoryManager;
+            _organizerRepository = organizerRepository;
             _mapper = mapper;
         }
         public void Delete(OrganizerDTO organizerDTO)
         {
             var orgVM = _mapper.Map<Organizers>(organizerDTO);
-            _repositoryManager.OrganizerRepository.Remove(orgVM);
-            _repositoryManager.Save();
+            _organizerRepository.Remove(orgVM);
+            _organizerRepository.Save();
         }
 
         public void Edit(OrganizerDTO organizerDTO)
         {
             var orgVM = _mapper.Map<Organizers>(organizerDTO);
-            _repositoryManager.OrganizerRepository.Edit(orgVM);
-            _repositoryManager.Save();
+            _organizerRepository.Edit(orgVM);
+            _organizerRepository.Save();
         }
 
         public async Task<IEnumerable<OrganizerDTO>> GetAllOrganizers()
         {
-            var orgVM = await _repositoryManager.OrganizerRepository.GetAllOrganizer();
+            var orgVM = await _organizerRepository.GetAllOrganizer();
             var orgDTO = _mapper.Map<IEnumerable<OrganizerDTO>>(orgVM);
             return orgDTO;
         }
 
         public async Task<OrganizerDTO> GetOrganizers(int id)
         {
-            var orgVM = await _repositoryManager.OrganizerRepository.GetOrganizerById(id);
+            var orgVM = await _organizerRepository.GetOrganizerById(id);
             var orgDTO = _mapper.Map<OrganizerDTO>(orgVM);
             return orgDTO;
         }
@@ -51,8 +51,8 @@ namespace PracticalTest.BLL
         public void Insert(OrganizerDTO userDTO)
         {
             var orgVM = _mapper.Map<Organizers>(userDTO);
-            _repositoryManager.OrganizerRepository.Insert(orgVM);
-            _repositoryManager.Save();
+            _organizerRepository.Insert(orgVM);
+            _organizerRepository.Save();
         }
     }
 }

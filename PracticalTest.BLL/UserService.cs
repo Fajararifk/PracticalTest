@@ -13,37 +13,37 @@ namespace PracticalTest.BLL
 {
     public class UserService : IUserService
     {
-        private readonly IRepositoryManager _repositoryManager;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public UserService(IRepositoryManager repositoryManager, IMapper mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
-            _repositoryManager = repositoryManager;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
         public void Delete(UserDTO userDTO)
         {
             var userVM = _mapper.Map<User>(userDTO);
-            _repositoryManager.UserRepository.Remove(userVM);
-            _repositoryManager.Save();
+            _userRepository.Remove(userVM);
+            _userRepository.Save();
         }
 
         public void Edit(UserDTO userDTO)
         {
             var userVM = _mapper.Map<User>(userDTO);
-            _repositoryManager.UserRepository.Edit(userVM);
-            _repositoryManager.Save();
+            _userRepository.Edit(userVM);
+            _userRepository.Save();
         }
 
         public async Task<IEnumerable<UserDTO>> GetAllUsers()
         {
-            var userVM = await _repositoryManager.UserRepository.GetAllUser();
+            var userVM = await _userRepository.GetAllUser();
             var userDTO = _mapper.Map<IEnumerable<UserDTO>>(userVM);
             return userDTO;
         }
 
         public async Task<UserDTO> GetUsers(string name)
         {
-            var userVM = await _repositoryManager.UserRepository.GetUserByName(name);
+            var userVM = await _userRepository.GetUserByName(name);
             var userDTO = _mapper.Map<UserDTO>(userVM);
             return userDTO;
         }
@@ -51,8 +51,8 @@ namespace PracticalTest.BLL
         public void Insert(UserDTO userDTO)
         {
             var userVM = _mapper.Map<User>(userDTO);
-            _repositoryManager.UserRepository.Insert(userVM);
-            _repositoryManager.Save();
+            _userRepository.Insert(userVM);
+            _userRepository.Save();
         }
     }
 }

@@ -1,11 +1,13 @@
-﻿using PracticalTest.BusinessObjects;
+﻿/*using PracticalTest.BusinessObjects;
+using PracticalTest.Contracts;
+using PracticalTest.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PracticalTest.Contracts.Implement
+namespace PracticalTest.DAL
 {
     public class RepositoryManager : IRepositoryManager
     {
@@ -58,3 +60,4 @@ namespace PracticalTest.Contracts.Implement
         public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
     }
 }
+*/

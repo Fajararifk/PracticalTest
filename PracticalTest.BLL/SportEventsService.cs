@@ -13,12 +13,12 @@ namespace PracticalTest.BLL
 {
     public class SportEventsService :  ISportEventsService
     {
-        private readonly IRepositoryManager _repositoryManager;
+        private readonly ISportEventsRepository _sportEventsRepository;
         private readonly IMapper _mapper;
 
-        public SportEventsService(IRepositoryManager repositoryManager, IMapper mapper)
+        public SportEventsService(ISportEventsRepository sportEventsRepository, IMapper mapper)
         {
-            _repositoryManager = repositoryManager;
+            _sportEventsRepository = sportEventsRepository;
             _mapper = mapper;
         }
 
@@ -26,24 +26,21 @@ namespace PracticalTest.BLL
         {
             var sportEventVM = _mapper
                 .Map<SportEvents>(sportEventsDTO);
-            _repositoryManager.SportEventRepository
-                .Remove(sportEventVM);
-            _repositoryManager.Save();
+            _sportEventsRepository.Remove(sportEventVM);
+            _sportEventsRepository.Save();
         }
 
         public void Edit(SportEventsDTO sportEventsDTO)
         {
             var sportEventVM = _mapper
                 .Map<SportEvents>(sportEventsDTO);
-            _repositoryManager.SportEventRepository
-                .Edit(sportEventVM);
-            _repositoryManager.Save();
+            _sportEventsRepository.Edit(sportEventVM);
+            _sportEventsRepository.Save();
         }
 
         public async Task<IEnumerable<SportEventsDTO>> GetAllSportEvents()
         {
-            var sportEventVM = await _repositoryManager
-                .SportEventRepository.GetAllSportEvents();
+            var sportEventVM = await _sportEventsRepository.GetAllSportEvents();
             var sportEventDTO = _mapper
                 .Map<IEnumerable<SportEventsDTO>>(sportEventVM);
             return sportEventDTO;
@@ -51,8 +48,7 @@ namespace PracticalTest.BLL
 
         public async Task<SportEventsDTO> GetSportEvents(int id)
         {
-            var sportEventVM = await _repositoryManager
-                .SportEventRepository.GetSportEventsById(id);
+            var sportEventVM = await _sportEventsRepository.GetSportEventsById(id);
             var sportEventDTO = _mapper
                 .Map<SportEventsDTO>(sportEventVM);
             return sportEventDTO;
@@ -62,9 +58,8 @@ namespace PracticalTest.BLL
         {
             var sportEventVM = _mapper
                 .Map<SportEvents>(userDTO);
-            _repositoryManager.SportEventRepository
-                .Insert(sportEventVM);
-            _repositoryManager.Save();
+            _sportEventsRepository.Insert(sportEventVM);
+            _sportEventsRepository.Save();
         }
     }
 }

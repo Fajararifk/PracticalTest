@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PracticalTest.Contracts;
 using ILogger = NLog.ILogger;
 
-namespace PracticalTest.Contracts.Implement
+namespace PracticalTest.DAL
 {
     public class LoggerManager : ILoggerManager
     {

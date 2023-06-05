@@ -14,5 +14,7 @@ namespace PracticalTest.Contracts
         void Insert(SportEvents sportEvents);
         void Edit(SportEvents sportEvents);
         void Remove(SportEvents sportEvents);
+        void Save();
+        Task SaveAsync();
     }
 }
