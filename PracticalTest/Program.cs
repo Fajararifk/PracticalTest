@@ -4,6 +4,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using PracticalTest;
 using PracticalTest.BLL;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
@@ -15,13 +16,6 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-/*builder.Services.AddCors(opt =>
-opt.AddPolicy("CorsPolicy", builder =>
-    builder.AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-));*/
 builder.Services.AddControllers()
     .AddFluentValidation(opt =>
     {
@@ -42,21 +36,11 @@ builder.Services.AddSwaggerGen(opt =>
         },
         Version = "v1"
     });
-   /* var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine("C:\\Users\\FajarArifKurniawan\\Documents", xmlFile);
-    opt.IncludeXmlComments(xmlPath);*/
 
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
     opt => builder.Configuration.Bind("JWTSettings", opt));
-builder.Services.AddTransient<IValidator<SportEvents>, SportEventsValidator>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IOrganizerRepository, OrganizerRepository>();
-builder.Services.AddScoped<ISportEventsRepository, SportEventRepository>();
-builder.Services.AddScoped<IUserBLL, UserBLL>();
-builder.Services.AddScoped<IOrganizersBLL, OrganizersBLL>();
-builder.Services.AddScoped<ISportEventsBLL, SportEventsBLL>();
 builder.Services.AddScoped<ILoggerManager, LoggerManager>();
 var logger = new LoggerConfiguration()
 .ReadFrom.Configuration(builder.Configuration)
@@ -67,6 +51,7 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 builder.Host.UseSerilog();
+builder.Services.RegisterModules();
 builder.Services.AddLogging(opt =>
 {
     opt.AddSerilog();
