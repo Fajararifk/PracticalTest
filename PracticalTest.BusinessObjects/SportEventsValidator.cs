@@ -25,6 +25,7 @@ namespace PracticalTest.BusinessObjects
             RuleFor(model => model.EventName)
                 .MinimumLength(250)
                 .WithMessage("This Event name should not be more 250 characters");
+            RuleFor(model => model.Organizers).NotEmpty();
 
         }
         private bool UniqueName(SportEvents sportEvents, string name)

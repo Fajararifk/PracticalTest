@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace PracticalTest.BusinessObjects
         public virtual DbSet<Organizers> Organizers { get; set; }
         public virtual DbSet<SportEvents> SportsEvents { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<IdentityUserToken<string>> IdentityUserTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

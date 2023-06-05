@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PracticalTest.BusinessObjects;
 
@@ -11,9 +12,10 @@ using PracticalTest.BusinessObjects;
 namespace PracticalTest.BusinessObjects.Migrations
 {
     [DbContext(typeof(PracticalTest_DBContext))]
-    partial class PracticalTest_DBContextModelSnapshot : ModelSnapshot
+    [Migration("20230605072403_addToken")]
+    partial class addToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,15 +53,15 @@ namespace PracticalTest.BusinessObjects.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6ea7fdbb-1bcb-4551-917f-9a1d5e3c4e64",
-                            ConcurrencyStamp = "4d3c83f7-32c9-4fc0-9465-d7dd4e13395b",
+                            Id = "199aedb9-fb16-4d45-b95d-90ba70bd370b",
+                            ConcurrencyStamp = "69d52fa8-ff67-4bb5-84c6-f4b684cbed75",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "9226899c-f4b5-4ce0-b291-f0ce465afdab",
-                            ConcurrencyStamp = "253bea74-13f9-47fb-9800-8412616f6270",
+                            Id = "e33ffe80-1865-4d3b-8c16-6f4736f21c50",
+                            ConcurrencyStamp = "1c9dde79-f7b0-46e2-b79e-d8dc43ecae6a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -281,9 +283,6 @@ namespace PracticalTest.BusinessObjects.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
