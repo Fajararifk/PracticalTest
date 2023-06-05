@@ -24,5 +24,6 @@ namespace PracticalTest.BusinessObjects
         public string Password { get; set; }
         [Required(ErrorMessage = "Password is required")]
         public string RepeatPassword { get; set; }
+        public string Token { get; set; }
     }
 }
