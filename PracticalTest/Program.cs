@@ -5,6 +5,7 @@ using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.DAL;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,19 @@ builder.Services.AddScoped<IUserBLL, UserBLL>();
 builder.Services.AddScoped<IOrganizersBLL, OrganizersBLL>();
 builder.Services.AddScoped<ISportEventsBLL, SportEventsBLL>();
 builder.Services.AddScoped<ILoggerManager, LoggerManager>();
+var logger = new LoggerConfiguration()
+.ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .MinimumLevel.Debug()
+    .WriteTo.File("logs/rumble-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+builder.Host.UseSerilog();
+builder.Services.AddLogging(opt =>
+{
+    opt.AddSerilog();
+});
 //builder.Services.AddScoped<IMapper, Mapper>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var mapping = new MapperConfiguration(mc =>

@@ -14,11 +14,11 @@ namespace PracticalTest.Controllers
     {
         private readonly PracticalTest_DBContext _context;
         private readonly ISportEventsRepository _repository;
-        private readonly ILoggerManager _logger;
+        private readonly ILogger<SportEventsController> _logger;
         private readonly IMapper _mapper;
         private readonly ISportEventsBLL _sportEventsBLL;
 
-        public SportEventsController(ISportEventsBLL sportEventsBLL, ILoggerManager logger, IMapper mapper)
+        public SportEventsController(ISportEventsBLL sportEventsBLL, ILogger<SportEventsController> logger, IMapper mapper)
         {
             _sportEventsBLL = sportEventsBLL;
             _logger = logger;
@@ -36,7 +36,7 @@ namespace PracticalTest.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(GetSportEvents)} message : {ex}");
+                _logger.LogInformation($"{nameof(GetSportEvents)} message : {ex}");
                 return StatusCode(500, "Internal Server Error");
             }
         }
@@ -45,7 +45,7 @@ namespace PracticalTest.Controllers
         {
             if (id == null)
             {
-                _logger.LogInfo($"SportEvents with id : {id} doesn't exist");
+                _logger.LogInformation($"SportEvents with id : {id} doesn't exist");
                 return NotFound();
             }
             else
@@ -60,7 +60,7 @@ namespace PracticalTest.Controllers
         {
             if (sportEventsDTO == null)
             {
-                _logger.LogError("name object is null");
+                _logger.LogInformation("name object is null");
                 return BadRequest("name object is null");
             }
             _sportEventsBLL.Insert(sportEventsDTO);
@@ -83,7 +83,7 @@ namespace PracticalTest.Controllers
         {
             if (id == null)
             {
-                _logger.LogError("id object is null");
+                _logger.LogInformation("id object is null");
                 return BadRequest("id object is null");
             }
             var sportEvents = await _sportEventsBLL.GetSportEventsAsync(id);

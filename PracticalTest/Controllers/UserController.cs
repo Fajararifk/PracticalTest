@@ -14,11 +14,11 @@ namespace PracticalTest.Controllers
     {
         private readonly PracticalTest_DBContext _context;
         private readonly IUserRepository _repository;
-        private readonly ILoggerManager _logger;
+        private readonly ILogger<UserController> _logger;
         private readonly IMapper _mapper;
         private readonly IUserBLL _userBLL;
 
-        public UserController(IUserBLL userBLL, ILoggerManager logger, IMapper mapper)
+        public UserController(IUserBLL userBLL, ILogger<UserController> logger, IMapper mapper)
         {
             _userBLL = userBLL;
             _logger = logger;
@@ -36,7 +36,7 @@ namespace PracticalTest.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(GetUser)} message : {ex}");
+                _logger.LogInformation($"{nameof(GetUser)} message : {ex}");
                 return StatusCode(500, "Internal Server Error");
             }
         }
@@ -45,7 +45,7 @@ namespace PracticalTest.Controllers
         {
             if (name == null)
             {
-                _logger.LogInfo($"Users with name : {name} doesn't exist");
+                _logger.LogInformation($"Users with name : {name} doesn't exist");
                 return NotFound();
             }
             else
@@ -60,7 +60,7 @@ namespace PracticalTest.Controllers
         {
             if (name == null)
             {
-                _logger.LogError("name object is null");
+                _logger.LogInformation("name object is null");
                 return BadRequest("name object is null");
             }
             _userBLL.Insert(name);
@@ -71,7 +71,7 @@ namespace PracticalTest.Controllers
         {
             if (name == null)
             {
-                _logger.LogError("name object is null");
+                _logger.LogInformation("name object is null");
                 return BadRequest("name object is null");
             }
             var user = await _userBLL.GetUsersAsync(name);
@@ -83,7 +83,7 @@ namespace PracticalTest.Controllers
         {
             if (name == null)
             {
-                _logger.LogError("name object is null");
+                _logger.LogInformation("name object is null");
                 return BadRequest("name object is null");
             }
             var user = await _userBLL.GetUsersAsync(name);
