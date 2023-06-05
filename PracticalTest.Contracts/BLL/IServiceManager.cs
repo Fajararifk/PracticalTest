@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +9,8 @@ namespace PracticalTest.Contracts.Service
     public interface IServiceManager
     {
         IUserService UserService { get; }
-        IOrganizersService OrganizersService { get; }
+        IOrganizersBLL OrganizersService { get; }
         ISportEventsService SportEventsService { get; }
     }
 }
+*/

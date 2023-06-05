@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
-using PracticalTest.Contracts.Service;
+using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
 using System.Xml.Linq;
 
@@ -13,14 +13,14 @@ namespace PracticalTest.Controllers
     public class SportEventsController : Controller
     {
         private readonly PracticalTest_DBContext _context;
-        private readonly IRepositoryManager _repository;
+        private readonly ISportEventsRepository _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        private readonly IServiceManager _serviceManager;
+        private readonly ISportEventsBLL _sportEventsBLL;
 
-        public SportEventsController(IServiceManager serviceManager, ILoggerManager logger, IMapper mapper)
+        public SportEventsController(ISportEventsBLL sportEventsBLL, ILoggerManager logger, IMapper mapper)
         {
-            _serviceManager = serviceManager;
+            _sportEventsBLL = sportEventsBLL;
             _logger = logger;
             _mapper = mapper;
         }
@@ -30,7 +30,7 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var users = await _serviceManager.SportEventsService.GetAllSportEvents();
+                var users = await _sportEventsBLL.GetAllSportEvents();
  
                 return Ok(users);
             }
@@ -50,7 +50,7 @@ namespace PracticalTest.Controllers
             }
             else
             {
-                var users = await _serviceManager.SportEventsService.GetSportEvents(id);
+                var users = await _sportEventsBLL.GetSportEvents(id);
                 return Ok(users);
             }
         }
@@ -63,7 +63,7 @@ namespace PracticalTest.Controllers
                 _logger.LogError("name object is null");
                 return BadRequest("name object is null");
             }
-            _serviceManager.SportEventsService.Insert(sportEventsDTO);
+            _sportEventsBLL.Insert(sportEventsDTO);
             return Ok(sportEventsDTO);
         }
         [HttpDelete("{id}")]
@@ -74,8 +74,8 @@ namespace PracticalTest.Controllers
                 _logger.LogError("id object is null");
                 return BadRequest("id object is null");
             }
-            var sportEvents = await _serviceManager.SportEventsService.GetSportEvents(id);
-            _serviceManager.SportEventsService.Delete(sportEvents);
+            var sportEvents = await _sportEventsBLL.GetSportEvents(id);
+            _sportEventsBLL.Delete(sportEvents);
             return Ok(sportEvents);
         }
         [HttpPut("{id}")]
@@ -86,8 +86,8 @@ namespace PracticalTest.Controllers
                 _logger.LogError("id object is null");
                 return BadRequest("id object is null");
             }
-            var sportEvents = await _serviceManager.SportEventsService.GetSportEvents(id);
-            _serviceManager.SportEventsService.Edit(sportEvents);
+            var sportEvents = await _sportEventsBLL.GetSportEvents(id);
+            _sportEventsBLL.Edit(sportEvents);
             return Ok(sportEvents);
         }
     }

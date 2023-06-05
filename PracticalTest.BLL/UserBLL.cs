@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
-using PracticalTest.Contracts.Service;
+using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
 using System;
 using System.Collections.Generic;
@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace PracticalTest.BLL
 {
-    public class UserService : IUserService
+    public class UserBLL : IUserBLL
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserBLL(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PracticalTest.Contracts.Service
+namespace PracticalTest.Contracts.BLL
 {
-    public interface IOrganizersService
+    public interface IOrganizersBLL
     {
         Task<IEnumerable<OrganizerDTO>> GetAllOrganizers();
         Task<OrganizerDTO> GetOrganizers(int Id);
