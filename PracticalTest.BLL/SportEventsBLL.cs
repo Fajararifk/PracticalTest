@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Razor;
 using PracticalTest.BLL.Exceptions;
 using PracticalTest.DTO.Create;
+using System.Text.Json.Nodes;
 
 namespace PracticalTest.BLL
 {
@@ -29,45 +30,44 @@ namespace PracticalTest.BLL
             _logger = logger;
         }
 
-        public void Delete(SportEventsDTO sportEventsDTO)
+        public Task<HttpResponseMessage> DeleteAsync(int id)
         {
             try
             {
-                var sportEventVM = _mapper
-                .Map<SportEvents>(sportEventsDTO);
-                _sportEventsRepository.Remove(sportEventVM);
-                _sportEventsRepository.Save();
+                var delete = _sportEventsRepository.DeleteAsync(id);
+                return delete;
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(Delete)} message : {ex}");
+                _logger.LogInformation($"{nameof(DeleteAsync)} message : {ex}");
+                var delete = _sportEventsRepository.DeleteAsync(id);
+                return delete;
             }
         }
 
-        public void Edit(SportEventsDTO sportEventsDTO)
+        public async Task<JsonNode> EditAsync(int id, SportEventsCreateAPIDTO sportEventsDTO)
         {
             try
             {
                 var sportEventVM = _mapper
                 .Map<SportEvents>(sportEventsDTO);
-                _sportEventsRepository.Edit(sportEventVM);
-                _sportEventsRepository.Save();
+                var edit =  await _sportEventsRepository.EditAsync(id, sportEventsDTO);
+                return edit;
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(Edit)} message : {ex}");
+                _logger.LogInformation($"{nameof(EditAsync)} message : {ex}");
+                return ex.Message;
             }
             
         }
 
-        public async Task<IEnumerable<SportEventsDTO>> GetAllSportEventsAsync()
+        public async Task<JsonNode> GetAllSportEventsAsync(int page, int perPage, int organizerID)
         {
             try
             {
-                var sportEventVM = await _sportEventsRepository.GetAllSportEventsAsync();
-                var sportEventDTO = _mapper
-                    .Map<IEnumerable<SportEventsDTO>>(sportEventVM);
-                return sportEventDTO;
+                var sportEventVM = await _sportEventsRepository.GetAllSportEventsAsync( page, perPage, organizerID);
+                return sportEventVM;
             }
             catch (Exception ex) 
             {
@@ -77,14 +77,12 @@ namespace PracticalTest.BLL
             
         }
 
-        public async Task<SportEventsDTO> GetSportEventsAsync(int id)
+        public async Task<JsonNode> GetSportEventsAsync(int id)
         {
             try
             {
                 var sportEventVM = await _sportEventsRepository.GetSportEventsByIdAsync(id);
-                var sportEventDTO = _mapper
-                    .Map<SportEventsDTO>(sportEventVM);
-                return sportEventDTO;
+                return sportEventVM;
             }
             catch (Exception ex)
             {
@@ -94,18 +92,17 @@ namespace PracticalTest.BLL
             
         }
 
-        public void Insert(SportEventsCreateDTO userDTO)
+        public async Task<JsonNode> InsertAsync(SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
         {
             try
             {
-                var sportEventVM = _mapper
-                .Map<SportEvents>(userDTO);
-                _sportEventsRepository.Insert(sportEventVM);
-                _sportEventsRepository.Save();
+                var insert = await _sportEventsRepository.InsertAsync(sportEventsCreateAPIDTO);
+                return insert;
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(Insert)} message : {ex}");
+                _logger.LogInformation($"{nameof(InsertAsync)} message : {ex}");
+                return ex.Message;
             }
         }
 
@@ -120,5 +117,6 @@ namespace PracticalTest.BLL
             }
             return sportEventsDTO;
         }
+
     }
 }
