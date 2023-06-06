@@ -4,6 +4,7 @@ using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.Contracts;
 using PracticalTest.DAL;
+using PracticalTest.DAL.Implement;
 
 namespace PracticalTest
 {
@@ -18,6 +19,7 @@ namespace PracticalTest
             services.AddScoped<IUserBLL, UserBLL>();
             services.AddScoped<IOrganizersBLL, OrganizersBLL>();
             services.AddScoped<ISportEventsBLL, SportEventsBLL>();
+            services.AddScoped<ILoginToAPI, LoginToAPI>();
             return services;
         }
     }
