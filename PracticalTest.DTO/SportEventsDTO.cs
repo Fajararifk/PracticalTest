@@ -13,6 +13,6 @@ namespace PracticalTest.DTO
         public DateTime EventDate { get; set; } = DateTime.Now;
         public string EventName { get; set; }
         public string EventType { get; set; }
-        public IEnumerable<Organizers> Organizers { get; set; }
+        public Organizers organizer { get; set; }
     }
 }

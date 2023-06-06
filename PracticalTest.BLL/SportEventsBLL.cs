@@ -62,6 +62,7 @@ namespace PracticalTest.BLL
             try
             {
                 var sportEvent = await _sportEventsRepository.GetAllSportEventsAsync(page, perPage, organizerID);
+
                 //var sportEventDTO = _mapper.Map<string>(sportEvent);
                 return sportEvent;
                 
