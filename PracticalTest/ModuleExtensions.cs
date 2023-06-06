@@ -20,6 +20,7 @@ namespace PracticalTest
             services.AddScoped<IOrganizersBLL, OrganizersBLL>();
             services.AddScoped<ISportEventsBLL, SportEventsBLL>();
             services.AddScoped<ILoginToAPI, LoginToAPI>();
+            services.AddScoped<IMethodFromAPI, MethodFromAPI>();
             return services;
         }
     }

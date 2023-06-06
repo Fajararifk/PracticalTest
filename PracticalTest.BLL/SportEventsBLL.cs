@@ -3,17 +3,10 @@ using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.Razor;
 using PracticalTest.BLL.Exceptions;
 using PracticalTest.DTO.Create;
-using System.Text.Json.Nodes;
 
 namespace PracticalTest.BLL
 {
@@ -95,8 +88,13 @@ namespace PracticalTest.BLL
         {
             try
             {
+                var validationSportEvents = new SportEventsValidator();
+                var sportEventVM = _mapper.Map<SportEvents>(sportEventsCreateAPIDTO);
+                var validationResult = validationSportEvents.Validate(sportEventVM);
+                if(validationResult.Errors.Count > 0)
+                    throw new ValidationException((IEnumerable<FluentValidation.Results.ValidationFailure>)validationResult);
                 _sportEventsRepository.Insert(sportEventsCreateAPIDTO);
-                
+
             }
             catch (Exception ex)
             {

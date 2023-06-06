@@ -1,11 +1,4 @@
-﻿using PracticalTest.BusinessObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PracticalTest.DTO.Create
+﻿namespace PracticalTest.DTO.Create
 {
     public class SportEventsCreateAPIDTO
     {

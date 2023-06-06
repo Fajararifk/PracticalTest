@@ -10,9 +10,9 @@ namespace PracticalTest.DAL
 {
     public class OrganizerRepository : IOrganizerRepository
     {
-        private ILoginToAPI _loginToAPI;
+        private IMethodFromAPI _loginToAPI;
 
-        public OrganizerRepository(ILoginToAPI loginToAPI)
+        public OrganizerRepository(IMethodFromAPI loginToAPI)
         {
             _loginToAPI = loginToAPI;
         }

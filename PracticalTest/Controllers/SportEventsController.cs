@@ -1,27 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Polly;
-using Polly.Retry;
-using PracticalTest.BLL;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
-using PracticalTest.DTO;
 using PracticalTest.DTO.Create;
-using RestSharp;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Mime;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Xml.Linq;
-using static System.Net.WebRequestMethods;
 
 namespace PracticalTest.Controllers
 {
@@ -92,6 +75,8 @@ namespace PracticalTest.Controllers
         {
             try
             {
+                if (sportEventsDTO.organizerId == null)
+                    return BadRequest();
                 _sportEventsBLL.Insert(sportEventsDTO);
                 return Ok(sportEventsDTO);
             }
@@ -110,6 +95,8 @@ namespace PracticalTest.Controllers
         {
             try
             {
+                if (id == 0)
+                    return BadRequest();
                 _sportEventsBLL.Delete(id);
                 return Ok();
             }
@@ -128,6 +115,8 @@ namespace PracticalTest.Controllers
         {
             try
             {
+                if(id == 0)
+                    return BadRequest();
                 _sportEventsBLL.Edit(id, sportEventsCreateDTO);
                 return Ok(sportEventsCreateDTO);
             }

@@ -15,15 +15,5 @@ namespace PracticalTest.Contracts
     {
         public Task<string> LoginAPI();
         public void TokenToDatabase(string token);
-        public Task<JsonNode> GetAllOrganizerAsync(int page, int perPage);
-        public Task<JsonNode> GetOrganizerByIdAsync(int id);
-        public Task<JsonNode> EditAsync(int id, OrganizerCreateDTO organizer);
-        public Task<JsonNode> InsertAsync(OrganizerCreateDTO organizer);
-        public Task<HttpResponseMessage> DeleteAsync(int id);
-        public Task<JsonNode> GetAllSportEventsAsync(int page, int perPage, int organizerID);
-        public Task<JsonNode> GetSportEventsByIdAsync(int id);
-        public Task<JsonNode> InsertAsync(SportEventsCreateAPIDTO sportEventsCreateAPIDTO);
-        public Task<JsonNode> EditAsync(int id, SportEventsCreateAPIDTO sportEventsCreateAPIDTO);
-        public Task<HttpResponseMessage> DeleteSportEventAsync(int id);
     }
 }
