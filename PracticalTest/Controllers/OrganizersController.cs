@@ -74,8 +74,9 @@ namespace PracticalTest.Controllers
             try
             {
                 var users = await _organizersBLL.GetOrganizersAsync(id);
-
-                return Ok(users);
+                if(users.Id == id)
+                    return Ok(users);
+                return BadRequest();
 
             }
             catch (Exception ex)
@@ -96,16 +97,16 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var users = await _organizersBLL.InsertAsync(organizerDTO);
+                _organizersBLL.Insert(organizerDTO);
 
-                return Ok(users);
+                return Ok(organizerDTO);
             }
             catch (Exception ex)
             {
                 _logger.LogInformation($"{nameof(CreateOrganizers)} message : {ex}");
                 return BadRequest(ex.Message);
             }
-            
+
 
         }
         /// <summary>
@@ -120,7 +121,8 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var user = await _organizersBLL.DeleteAsync(id);
+                //var organizers = await _organizersBLL.GetOrganizersAsync(id);
+                _organizersBLL.Delete(id);
                 return Ok();
             }
             catch (Exception ex)
@@ -141,8 +143,8 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var user = await _organizersBLL.EditAsync(id, organizerCreateDTO);
-                return Ok(user);
+                _organizersBLL.Edit(id, organizerCreateDTO);
+                return Ok(organizerCreateDTO);
             }
             catch (Exception ex)
             {

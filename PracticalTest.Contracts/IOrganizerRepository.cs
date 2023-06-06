@@ -13,10 +13,10 @@ namespace PracticalTest.Contracts
 {
     public interface IOrganizerRepository
     {
-        Task<JsonNode> GetAllOrganizerAsync(int page, int perPage);
-        Task<JsonNode> GetOrganizerByIdAsync(int id);
-        Task<JsonNode> InsertAsync(OrganizerCreateDTO organizer);
-        Task<JsonNode> EditAsync(int id, OrganizerCreateDTO organizer);
-        Task<HttpResponseMessage> DeleteAsync(int id);
+        Task<IEnumerable<Organizers>> GetAllOrganizerAsync(int page, int perPage);
+        Task<Organizers> GetOrganizerByIdAsync(int id);
+        void Insert(OrganizerCreateDTO organizer);
+        void Edit(int id, OrganizerCreateDTO organizer);
+        void Delete(int id);
     }
 }

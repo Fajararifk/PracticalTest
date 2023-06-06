@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
+using PracticalTest.DTO;
 using PracticalTest.DTO.Create;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
@@ -20,34 +21,39 @@ namespace PracticalTest.DAL
             _loginToAPI = loginToAPI;
         }
 
-        public async Task<JsonNode> GetAllSportEventsAsync(int page, int perPage, int organizerID)
+        public async Task<IEnumerable<SportEvents>> GetAllSportEventsAsync(int page, int perPage, int organizerID)
         {
             var getAllSportEventsASync = await _loginToAPI.GetAllSportEventsAsync(page, perPage, organizerID);
-            return getAllSportEventsASync;
+            var get = getAllSportEventsASync["data"].ToJsonString();
+            var result = JsonConvert.DeserializeObject<List<SportEvents>>(get);
+            return result;
         }
 
-        public async Task<JsonNode> GetSportEventsByIdAsync(int id)
+        public async Task<SportEvents> GetSportEventsByIdAsync(int id)
         {
             var getSportEventsByIdAsync = await _loginToAPI.GetSportEventsByIdAsync(id);
-            return getSportEventsByIdAsync;
+            var get = getSportEventsByIdAsync.ToJsonString();
+            var result = JsonConvert.DeserializeObject<SportEvents>(get);
+            return result;
         }
 
-        public async Task<JsonNode> InsertAsync(SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
+        public void Insert(SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
         {
-            var insertAsync = await _loginToAPI.InsertAsync(sportEventsCreateAPIDTO);
-            return insertAsync;
+            var insert = _loginToAPI.InsertAsync(sportEventsCreateAPIDTO);
+            var get = insert.ToString();
+            var result = JsonConvert.DeserializeObject<SportEvents>(get);
+            return;
         }
 
-        public async Task<JsonNode> EditAsync(int id, SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
+        public void Edit(int id, SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
         {
-            var editAsync = await _loginToAPI.EditAsync(id, sportEventsCreateAPIDTO);
-            return editAsync;
+            _loginToAPI.EditAsync(id, sportEventsCreateAPIDTO);
         }
 
-        public async Task<HttpResponseMessage> DeleteAsync(int id)
+        public async void Delete(int id)
         {
-            var deleteAsync = await _loginToAPI.DeleteAsync(id);
-            return deleteAsync;
+            await _loginToAPI.DeleteAsync(id);
         }
+
     }
 }

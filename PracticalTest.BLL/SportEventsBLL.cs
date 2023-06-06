@@ -30,59 +30,57 @@ namespace PracticalTest.BLL
             _logger = logger;
         }
 
-        public Task<HttpResponseMessage> DeleteAsync(int id)
+        public void Delete(int id)
         {
             try
             {
-                var delete = _sportEventsRepository.DeleteAsync(id);
-                return delete;
+               _sportEventsRepository.Delete(id);
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(DeleteAsync)} message : {ex}");
-                var delete = _sportEventsRepository.DeleteAsync(id);
-                return delete;
+                _logger.LogInformation($"{nameof(Delete)} message : {ex}");
             }
         }
 
-        public async Task<JsonNode> EditAsync(int id, SportEventsCreateAPIDTO sportEventsDTO)
+        public void Edit(int id, SportEventsCreateAPIDTO sportEventsDTO)
         {
             try
             {
                 var sportEventVM = _mapper
                 .Map<SportEvents>(sportEventsDTO);
-                var edit =  await _sportEventsRepository.EditAsync(id, sportEventsDTO);
-                return edit;
+                _sportEventsRepository.Edit(id, sportEventsDTO);
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(EditAsync)} message : {ex}");
-                return ex.Message;
+                _logger.LogInformation($"{nameof(Edit)} message : {ex}");
             }
             
         }
 
-        public async Task<JsonNode> GetAllSportEventsAsync(int page, int perPage, int organizerID)
+        public async Task<IEnumerable<SportEvents>> GetAllSportEventsAsync(int page, int perPage, int organizerID)
         {
             try
             {
-                var sportEventVM = await _sportEventsRepository.GetAllSportEventsAsync( page, perPage, organizerID);
-                return sportEventVM;
+                var sportEvent = await _sportEventsRepository.GetAllSportEventsAsync(page, perPage, organizerID);
+                //var sportEventDTO = _mapper.Map<string>(sportEvent);
+                return sportEvent;
+                
             }
             catch (Exception ex) 
             {
-                _logger.LogInformation($"{nameof(GetAllSportEventsAsync)} message : {ex}");
+                _logger.LogInformation($"{nameof(GetAllSportEventsAsync)} message : {ex.Message}");
                 throw new BLLException(ExceptionCodes.BLLExceptions.GetAllSportEventsAsync, $"An error occured while getting getAllSportEvents {ex.ToString()}");
             }
             
         }
 
-        public async Task<JsonNode> GetSportEventsAsync(int id)
+        public async Task<SportEventsDTO> GetSportEventsAsync(int id)
         {
             try
             {
                 var sportEventVM = await _sportEventsRepository.GetSportEventsByIdAsync(id);
-                return sportEventVM;
+                var sportEventDTO = _mapper.Map<SportEventsDTO>(sportEventVM);
+                return sportEventDTO;
             }
             catch (Exception ex)
             {
@@ -92,17 +90,16 @@ namespace PracticalTest.BLL
             
         }
 
-        public async Task<JsonNode> InsertAsync(SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
+        public void Insert(SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
         {
             try
             {
-                var insert = await _sportEventsRepository.InsertAsync(sportEventsCreateAPIDTO);
-                return insert;
+                _sportEventsRepository.Insert(sportEventsCreateAPIDTO);
+                
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(InsertAsync)} message : {ex}");
-                return ex.Message;
+                _logger.LogInformation($"{nameof(Insert)} message : {ex}");
             }
         }
 

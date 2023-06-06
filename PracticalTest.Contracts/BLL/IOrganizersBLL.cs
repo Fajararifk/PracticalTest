@@ -1,4 +1,5 @@
-﻿using PracticalTest.DTO;
+﻿using PracticalTest.BusinessObjects;
+using PracticalTest.DTO;
 using PracticalTest.DTO.Create;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,10 @@ namespace PracticalTest.Contracts.BLL
 {
     public interface IOrganizersBLL
     {
-        Task<JsonNode> GetAllOrganizersAsync(int page, int perPage);
-        Task<JsonNode> GetOrganizersAsync(int Id);
-        Task<JsonNode> InsertAsync(OrganizerCreateDTO organizerCreateDTO);
-        Task<JsonNode> EditAsync(int id, OrganizerCreateDTO organizerCreateDTO);
-        Task<HttpResponseMessage> DeleteAsync(int id);
+        Task<IEnumerable<OrganizerDTO>> GetAllOrganizersAsync(int page, int perPage);
+        Task<OrganizerDTO> GetOrganizersAsync(int Id);
+        void Insert(OrganizerCreateDTO organizerCreateDTO);
+        void Edit(int id, OrganizerCreateDTO organizerCreateDTO);
+        void Delete(int id);
     }
 }

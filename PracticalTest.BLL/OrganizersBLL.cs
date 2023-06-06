@@ -22,37 +22,35 @@ namespace PracticalTest.BLL
             _organizerRepository = organizerRepository;
             _mapper = mapper;
         }
-        public async Task<JsonNode> EditAsync(int id, OrganizerCreateDTO organizerCreateDTO)
-        {
-            //var orgVM = _mapper.Map<Organizers>(userDTO);
-            var edit = await _organizerRepository.EditAsync(id, organizerCreateDTO);
-            return edit;
-        }
-        public Task<HttpResponseMessage> DeleteAsync(int id)
-        {
-            //var orgVM = _mapper.Map<Organizers>(id);
-            var delete = _organizerRepository.DeleteAsync(id);
-            return delete;
-        }
-        public async Task<JsonNode> GetAllOrganizersAsync(int page, int perPage)
+        public async Task<IEnumerable<OrganizerDTO>> GetAllOrganizersAsync(int page, int perPage)
         {
             var orgVM = await _organizerRepository.GetAllOrganizerAsync(page, perPage);
-            //var orgDTO = _mapper.Map<OrganizerDTO>(orgVM);
-            return orgVM;
+            var orgDTO = _mapper.Map<IEnumerable<OrganizerDTO>>(orgVM);
+            return orgDTO;
+        }
+        public void Edit(int id, OrganizerCreateDTO organizerCreateDTO)
+        {
+            var orgVM = _mapper.Map<Organizers>(organizerCreateDTO);
+            _organizerRepository.Edit(id, organizerCreateDTO);
+        }
+        public void Delete(int id)
+        {
+            //var orgVM = _mapper.Map<Organizers>(id);
+            _organizerRepository.Delete(id);
+            
         }
 
-        public async Task<JsonNode> GetOrganizersAsync(int id)
+        public async Task<OrganizerDTO> GetOrganizersAsync(int id)
         {
             var orgVM = await _organizerRepository.GetOrganizerByIdAsync(id);
-            //var orgDTO = _mapper.Map<OrganizerDTO>(orgVM);
-            return orgVM;
+            var orgDTO = _mapper.Map<OrganizerDTO>(orgVM);
+            return orgDTO;
         }
 
-        public async Task<JsonNode> InsertAsync(OrganizerCreateDTO organizerCreateDTO)
+        public void Insert(OrganizerCreateDTO organizerCreateDTO)
         {
             //var orgVM = _mapper.Map<Organizers>(userDTO);
-            var create = await _organizerRepository.InsertAsync(organizerCreateDTO);
-            return create;
+            _organizerRepository.Insert(organizerCreateDTO);
         }
     }
 }

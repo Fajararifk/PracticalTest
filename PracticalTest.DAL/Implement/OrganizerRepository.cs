@@ -1,15 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Newtonsoft.Json;
-using NLog.Fluent;
+﻿using Newtonsoft.Json;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
-using PracticalTest.DTO;
 using PracticalTest.DTO.Create;
-using System.IdentityModel.Tokens.Jwt;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace PracticalTest.DAL
 {
@@ -21,34 +16,35 @@ namespace PracticalTest.DAL
         {
             _loginToAPI = loginToAPI;
         }
-        public async Task<HttpResponseMessage> DeleteAsync(int id)
-        {
-            var deleteAsync = await _loginToAPI.DeleteAsync(id);
-            return deleteAsync;
-        }
 
-        public async Task<JsonNode> EditAsync(int id, OrganizerCreateDTO organizer)
-        {
-            var editAsync = await _loginToAPI.EditAsync(id, organizer);
-            return editAsync;
-        }
-
-        public async Task<JsonNode> GetAllOrganizerAsync(int page, int perPage)
+        public async Task<IEnumerable<Organizers>> GetAllOrganizerAsync(int page, int perPage)
         {
             var getAllOrganizerAsync = await _loginToAPI.GetAllOrganizerAsync(page, perPage);
-            return getAllOrganizerAsync;
+            var get = getAllOrganizerAsync["data"].ToJsonString();
+            var result = JsonConvert.DeserializeObject<List<Organizers>>(get);
+            return result;
         }
 
-        public async Task<JsonNode> GetOrganizerByIdAsync(int id)
+        public async Task<Organizers> GetOrganizerByIdAsync(int id)
         {
             var getOrganizerByIdAsync = await _loginToAPI.GetOrganizerByIdAsync(id);
-            return getOrganizerByIdAsync;
+            var get = getOrganizerByIdAsync.ToJsonString();
+            var result = JsonConvert.DeserializeObject<Organizers>(get);
+            return result;
         }
 
-        public async Task<JsonNode> InsertAsync(OrganizerCreateDTO organizer)
+        public void Insert(OrganizerCreateDTO organizer)
         {
-            var insertAsync = await _loginToAPI.InsertAsync(organizer);
-            return insertAsync;
+            _loginToAPI.InsertAsync(organizer);
+        }
+        public void Edit(int id, OrganizerCreateDTO organizer)
+        {
+            _loginToAPI.EditAsync(id, organizer);
+        }
+
+        public void Delete(int id)
+        {
+           _loginToAPI.DeleteAsync(id);
         }
 
     }

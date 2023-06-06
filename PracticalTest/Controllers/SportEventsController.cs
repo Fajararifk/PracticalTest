@@ -60,7 +60,7 @@ namespace PracticalTest.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(GetSportEvents)} message : {ex}");
+                _logger.LogInformation($"{nameof(GetSportEvents)} message : {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
@@ -92,8 +92,8 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var sportEvents = await _sportEventsBLL.InsertAsync(sportEventsDTO);
-                return Ok(sportEvents);
+                _sportEventsBLL.Insert(sportEventsDTO);
+                return Ok(sportEventsDTO);
             }
             catch (Exception ex)
             {
@@ -110,8 +110,8 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var sportEvents = await _sportEventsBLL.DeleteAsync(id);
-                return Ok(sportEvents);
+                _sportEventsBLL.Delete(id);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -128,8 +128,8 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var sportEvents = await _sportEventsBLL.EditAsync(id, sportEventsCreateDTO);
-                return Ok(sportEvents);
+                _sportEventsBLL.Edit(id, sportEventsCreateDTO);
+                return Ok(sportEventsCreateDTO);
             }
             catch (Exception ex)
             {

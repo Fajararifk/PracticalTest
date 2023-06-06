@@ -1,4 +1,5 @@
-﻿using Microsoft.Net.Http.Headers;
+﻿using AutoMapper;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
@@ -18,11 +19,13 @@ namespace PracticalTest.DAL.Implement
     public class LoginToAPI : ILoginToAPI
     {
         private PracticalTest_DBContext _dbContext;
+        private IMapper _mapper;
         const string User = "far@voxteneooo.com";
         const string Password = "Pass@w0rd1@";
-        public LoginToAPI(PracticalTest_DBContext dbContext)
+        public LoginToAPI(PracticalTest_DBContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
         private static DateTime ConvertFromUnixTimestamp(int timestamp)
         {
@@ -72,7 +75,7 @@ namespace PracticalTest.DAL.Implement
 
         public void TokenToDatabase(string token)
         {          
-            var tokenEmail = _dbContext.Users.Where(x => x.EmailAddress == User).Select(x => new { x.Token }).FirstOrDefault();
+            var tokenEmail = _dbContext.Users.FirstOrDefault(x => x.EmailAddress == User)?.Token;
             var userToken = new User
             {
                 Token = token,
@@ -85,16 +88,18 @@ namespace PracticalTest.DAL.Implement
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
-                AccessFailedCount = 0,
+                AccessFailedCount = 1,
             };
-            if (tokenEmail.Token == null)
+            if (tokenEmail == null)
             {
                 _dbContext.Users.Add(userToken);
                 _dbContext.SaveChanges();
             }
             else
             {
-                _dbContext.Entry(userToken).CurrentValues.SetValues(User);
+                //_dbContext.Update(userToken);
+                var entry = _dbContext.Entry(userToken);
+                entry.CurrentValues.SetValues(User);
                 _dbContext.SaveChanges();
             }
         }
@@ -127,7 +132,8 @@ namespace PracticalTest.DAL.Implement
             client.DefaultRequestHeaders.Authorization = authheader;
             client.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var jsonData = JsonConvert.SerializeObject(organizer);
+            var orgVM = _mapper.Map<Organizers>(organizer);
+            var jsonData = JsonConvert.SerializeObject(orgVM);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             var response = await client.PutAsync($"organizers/{id}", content);
             var parse = JsonObject.Parse(jsonData);
@@ -164,7 +170,8 @@ namespace PracticalTest.DAL.Implement
             client.DefaultRequestHeaders.Authorization = authheader;
             client.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var jsonData = JsonConvert.SerializeObject(organizer);
+            var orgVM = _mapper.Map<Organizers>(organizer);
+            var jsonData = JsonConvert.SerializeObject(orgVM);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             var response = await client.PostAsync($"organizers", content);
             var result = response.Content.ReadAsStringAsync().Result;
