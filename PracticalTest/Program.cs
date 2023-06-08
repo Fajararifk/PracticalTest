@@ -55,6 +55,7 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
         .ReadFrom.Services(services)
         .Enrich.FromLogContext());
 builder.Services.RegisterModules();
+builder.Services.SportEventsModules();
 builder.Services.AddHttpClient();
 builder.Services.AddLogging(opt =>
 {

@@ -15,13 +15,17 @@ namespace PracticalTest
             services.AddTransient<IValidator<SportEvents>, SportEventsValidator>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IOrganizerRepository, OrganizerRepository>();
-            services.AddScoped<ISportEventsRepository, SportEventRepository>();
             services.AddScoped<IUserBLL, UserBLL>();
             services.AddScoped<IOrganizersBLL, OrganizersBLL>();
-            services.AddScoped<ISportEventsBLL, SportEventsBLL>();
             services.AddScoped<IAuthenticationGenerate, AuthenticationGenerates>();
             services.AddScoped<IMethodFromAPI, MethodFromAPI>();
             services.AddScoped<IRepositoryCallAPI, RepositoryCallAPI>();
+            return services;
+        }
+        public static IServiceCollection SportEventsModules(this IServiceCollection services)
+        {
+            services.AddScoped<ISportEventsRepository, SportEventRepository>();
+            services.AddScoped<ISportEventsBLL, SportEventsBLL>();
             return services;
         }
     }
