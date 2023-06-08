@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PracticalTest.BusinessObjects;
+using PracticalTest.DTO;
 using PracticalTest.DTO.Create;
 using System;
 using System.Collections;
@@ -13,10 +14,10 @@ namespace PracticalTest.Contracts
 {
     public interface IOrganizerRepository
     {
-        Task<IEnumerable<Organizers>> GetAllOrganizerAsync(int page, int perPage);
+        Task<JsonOrganizer> GetAllOrganizerAsync(int page, int perPage);
         Task<Organizers> GetOrganizerByIdAsync(int id);
-        void Insert(OrganizerCreateDTO organizer);
-        void Edit(int id, OrganizerCreateDTO organizer);
-        void Delete(int id);
+        Task<Organizers> Insert(OrganizerCreateDTO organizer);
+        Task<OrganizerCreateDTO> Edit(int id, OrganizerCreateDTO organizer);
+        Task Delete(int id);
     }
 }

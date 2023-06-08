@@ -97,9 +97,8 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                _organizersBLL.Insert(organizerDTO);
-
-                return Ok(organizerDTO);
+                var response = await _organizersBLL.Insert(organizerDTO);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -122,7 +121,7 @@ namespace PracticalTest.Controllers
             try
             {
                 //var organizers = await _organizersBLL.GetOrganizersAsync(id);
-                _organizersBLL.Delete(id);
+                await _organizersBLL.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

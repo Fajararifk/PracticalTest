@@ -50,8 +50,12 @@ var logger = new LoggerConfiguration()
     .CreateLogger();
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
-builder.Host.UseSerilog();
+builder.Host.UseSerilog((context, services, configuration) => configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext());
 builder.Services.RegisterModules();
+builder.Services.AddHttpClient();
 builder.Services.AddLogging(opt =>
 {
     opt.AddSerilog();

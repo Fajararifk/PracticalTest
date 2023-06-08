@@ -9,23 +9,17 @@ namespace PracticalTest.DTO
 {
     public class JsonSportEventsAll
     {
-        public Meta Meta { get; set; }
-        public List<SportEvents> Data { get; set; }
+        public List<DataSportEvent> data { get; set; }
+        public Meta meta { get; set; }
     }
-    public class Meta
+    public class DataSportEvent
     {
-        public Pagination Pagination { get; set; }
+        public string eventDate { get; set; }
+        public string eventName { get; set; }
+        public string eventType { get; set; }
+        public int id { get; set; }
+        public Organizers organizer { get; set; }
     }
-    public class Pagination
-    {
-        public int total { get; set; }
-        public int count { get; set; }
-        public int per_page { get; set; }
-        public int total_pages { get; set; }
-        public List<Links> links { get; set; }
-    }
-    public class Links
-    {
-        public string next { get; set; }
-    }
+
+    
 }

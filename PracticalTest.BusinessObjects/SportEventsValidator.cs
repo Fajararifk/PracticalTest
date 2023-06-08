@@ -25,7 +25,7 @@ namespace PracticalTest.BusinessObjects
         }
         private bool UniqueName(SportEvents sportEvents, string name)
         {
-            var dbSportEvents = _dbContext.SportsEvents.Where(x => x.EventName.ToLower() == name.ToLower()).SingleOrDefault();
+            var dbSportEvents = _dbContext.SportsEvents.FirstOrDefault(x => x.EventName.ToLower() == name.ToLower());
             if(dbSportEvents == null)
                 return true;
             return dbSportEvents.EventName == sportEvents.EventName;

@@ -12,10 +12,10 @@ namespace PracticalTest.Contracts
 {
     public interface ISportEventsRepository
     {
-        Task<IEnumerable<SportEvents>> GetAllSportEventsAsync(int page, int perPage, int organizerID);
+        Task<JsonSportEventsAll> GetAllSportEventsAsync(int page, int perPage, int organizerID);
         Task<SportEvents> GetSportEventsByIdAsync(int id);
-        void Insert(SportEventsCreateAPIDTO sportEventsCreateAPIDTO);
-        void Edit(int id, SportEventsCreateAPIDTO sportEventsCreateAPIDTO);
-        void Delete(int id);
+        Task<SportEventsResponseAPIDTO> Insert(SportEventsCreateAPIDTO sportEventsCreateAPIDTO);
+        Task<SportEventsCreateAPIDTO> Edit(int id, SportEventsCreateAPIDTO sportEventsCreateAPIDTO);
+        Task Delete(int id);
     }
 }

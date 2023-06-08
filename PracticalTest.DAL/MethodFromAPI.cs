@@ -16,18 +16,20 @@ namespace PracticalTest.DAL
 {
     public class MethodFromAPI : IMethodFromAPI
     {
-        private readonly ILoginToAPI _loginToAPI;
+        private readonly IAuthenticationGenerate _loginToAPI;
         private readonly IMapper _mapper;
+        private readonly IRepositoryCallAPI _repositoryCallAPI;
 
-        public MethodFromAPI(ILoginToAPI loginToAPI, IMapper mapper)
+        public MethodFromAPI(IAuthenticationGenerate loginToAPI, IMapper mapper, IRepositoryCallAPI repositoryCallAPI)
         {
             _loginToAPI = loginToAPI;
             _mapper = mapper;
+            _repositoryCallAPI = repositoryCallAPI;
         }
 
         public async Task<HttpResponseMessage> DeleteAsync(int id)
         {
-            var accessToken = await _loginToAPI.LoginAPI();
+            var accessToken = await _loginToAPI.AuthenticationGenerate();
             var handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false
@@ -43,7 +45,7 @@ namespace PracticalTest.DAL
 
         public async Task<JsonNode> EditAsync(int id, OrganizerCreateDTO organizer)
         {
-            var accessToken = await _loginToAPI.LoginAPI();
+            var accessToken = await _loginToAPI.AuthenticationGenerate();
             var handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false
@@ -63,7 +65,7 @@ namespace PracticalTest.DAL
 
         public async Task<JsonNode> GetAllOrganizerAsync(int page, int perPage)
         {
-            var accessToken = await _loginToAPI.LoginAPI();
+            var accessToken = await _loginToAPI.AuthenticationGenerate();
             var handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false
@@ -81,7 +83,7 @@ namespace PracticalTest.DAL
 
         public async Task<JsonNode> InsertAsync(OrganizerCreateDTO organizer)
         {
-            var accessToken = await _loginToAPI.LoginAPI();
+            var accessToken = await _loginToAPI.AuthenticationGenerate();
             var handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false
@@ -102,7 +104,7 @@ namespace PracticalTest.DAL
 
         public async Task<JsonNode> GetOrganizerByIdAsync(int id)
         {
-            var accessToken = await _loginToAPI.LoginAPI();
+            var accessToken = await _loginToAPI.AuthenticationGenerate();
             var handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false
@@ -120,7 +122,7 @@ namespace PracticalTest.DAL
 
         public async Task<JsonNode> GetAllSportEventsAsync(int page, int perPage, int organizerID)
         {
-            var accessToken = await _loginToAPI.LoginAPI();
+            var accessToken = await _loginToAPI.AuthenticationGenerate();
             var handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false
@@ -138,7 +140,7 @@ namespace PracticalTest.DAL
 
         public async Task<JsonNode> GetSportEventsByIdAsync(int id)
         {
-            var accessToken = await _loginToAPI.LoginAPI();
+            var accessToken = await _loginToAPI.AuthenticationGenerate();
             var handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false
@@ -156,7 +158,7 @@ namespace PracticalTest.DAL
         public async Task<JsonNode> InsertAsync(SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
         {
 
-            var accessToken = await _loginToAPI.LoginAPI();
+            var accessToken = await _loginToAPI.AuthenticationGenerate();
             var handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false
@@ -178,7 +180,7 @@ namespace PracticalTest.DAL
 
         public async Task<JsonNode> EditAsync(int id, SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
         {
-            var accessToken = await _loginToAPI.LoginAPI();
+            var accessToken = await _loginToAPI.AuthenticationGenerate();
             var handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false
@@ -197,7 +199,7 @@ namespace PracticalTest.DAL
 
         public async Task<HttpResponseMessage> DeleteSportEventAsync(int id)
         {
-            var accessToken = await _loginToAPI.LoginAPI();
+            var accessToken = await _loginToAPI.AuthenticationGenerate();
             var handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false

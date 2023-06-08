@@ -19,8 +19,9 @@ namespace PracticalTest
             services.AddScoped<IUserBLL, UserBLL>();
             services.AddScoped<IOrganizersBLL, OrganizersBLL>();
             services.AddScoped<ISportEventsBLL, SportEventsBLL>();
-            services.AddScoped<ILoginToAPI, LoginToAPI>();
+            services.AddScoped<IAuthenticationGenerate, AuthenticationGenerates>();
             services.AddScoped<IMethodFromAPI, MethodFromAPI>();
+            services.AddScoped<IRepositoryCallAPI, RepositoryCallAPI>();
             return services;
         }
     }

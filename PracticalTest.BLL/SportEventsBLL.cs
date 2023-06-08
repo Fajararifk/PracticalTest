@@ -23,34 +23,36 @@ namespace PracticalTest.BLL
             _logger = logger;
         }
 
-        public void Delete(int id)
+        public Task Delete(int id)
         {
             try
             {
-               _sportEventsRepository.Delete(id);
+                var delete = _sportEventsRepository.Delete(id);
+                return delete;
             }
             catch (Exception ex)
             {
                 _logger.LogInformation($"{nameof(Delete)} message : {ex}");
+                return Task.Delay(1000);
             }
         }
 
-        public void Edit(int id, SportEventsCreateAPIDTO sportEventsDTO)
+        public Task<SportEventsCreateAPIDTO> Edit(int id, SportEventsCreateAPIDTO sportEventsDTO)
         {
             try
             {
-                var sportEventVM = _mapper
-                .Map<SportEvents>(sportEventsDTO);
-                _sportEventsRepository.Edit(id, sportEventsDTO);
+                var sportEvents = _sportEventsRepository.Edit(id, sportEventsDTO);
+                return sportEvents;
             }
             catch (Exception ex)
             {
                 _logger.LogInformation($"{nameof(Edit)} message : {ex}");
+                return null;
             }
             
         }
 
-        public async Task<IEnumerable<SportEvents>> GetAllSportEventsAsync(int page, int perPage, int organizerID)
+        public async Task<JsonSportEventsAll> GetAllSportEventsAsync(int page, int perPage, int organizerID)
         {
             try
             {
@@ -84,21 +86,18 @@ namespace PracticalTest.BLL
             
         }
 
-        public void Insert(SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
+        public Task<SportEventsResponseAPIDTO> Insert(SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
         {
             try
             {
-                var validationSportEvents = new SportEventsValidator();
-                var sportEventVM = _mapper.Map<SportEvents>(sportEventsCreateAPIDTO);
-                var validationResult = validationSportEvents.Validate(sportEventVM);
-                if(validationResult.Errors.Count > 0)
-                    throw new ValidationException((IEnumerable<FluentValidation.Results.ValidationFailure>)validationResult);
-                _sportEventsRepository.Insert(sportEventsCreateAPIDTO);
+                var insert = _sportEventsRepository.Insert(sportEventsCreateAPIDTO);
+                return insert;
 
             }
             catch (Exception ex)
             {
                 _logger.LogInformation($"{nameof(Insert)} message : {ex}");
+                return null;
             }
         }
 

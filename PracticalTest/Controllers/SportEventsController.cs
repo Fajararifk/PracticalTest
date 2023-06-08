@@ -77,8 +77,8 @@ namespace PracticalTest.Controllers
             {
                 if (sportEventsDTO.organizerId == null)
                     return BadRequest();
-                _sportEventsBLL.Insert(sportEventsDTO);
-                return Ok(sportEventsDTO);
+                var insert = await _sportEventsBLL.Insert(sportEventsDTO);
+                return Ok(insert);
             }
             catch (Exception ex)
             {

@@ -22,21 +22,23 @@ namespace PracticalTest.BLL
             _organizerRepository = organizerRepository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<OrganizerDTO>> GetAllOrganizersAsync(int page, int perPage)
+        public async Task<JsonOrganizer> GetAllOrganizersAsync(int page, int perPage)
         {
             var orgVM = await _organizerRepository.GetAllOrganizerAsync(page, perPage);
-            var orgDTO = _mapper.Map<IEnumerable<OrganizerDTO>>(orgVM);
-            return orgDTO;
+            //var orgDTO = _mapper.Map<OrganizerDTO>(orgVM);
+            return orgVM;
         }
-        public void Edit(int id, OrganizerCreateDTO organizerCreateDTO)
+        public Task<OrganizerCreateDTO> Edit(int id, OrganizerCreateDTO organizerCreateDTO)
         {
             var orgVM = _mapper.Map<Organizers>(organizerCreateDTO);
-            _organizerRepository.Edit(id, organizerCreateDTO);
+            var edit = _organizerRepository.Edit(id, organizerCreateDTO);
+            return edit;
         }
-        public void Delete(int id)
+        public Task Delete(int id)
         {
             //var orgVM = _mapper.Map<Organizers>(id);
-            _organizerRepository.Delete(id);
+            var delete = _organizerRepository.Delete(id);
+            return delete;
             
         }
 
@@ -47,10 +49,11 @@ namespace PracticalTest.BLL
             return orgDTO;
         }
 
-        public void Insert(OrganizerCreateDTO organizerCreateDTO)
+        public Task<Organizers> Insert(OrganizerCreateDTO organizerCreateDTO)
         {
             //var orgVM = _mapper.Map<Organizers>(userDTO);
-            _organizerRepository.Insert(organizerCreateDTO);
+            var insert = _organizerRepository.Insert(organizerCreateDTO);
+            return insert;
         }
     }
 }

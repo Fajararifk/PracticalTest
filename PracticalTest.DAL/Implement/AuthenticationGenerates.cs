@@ -12,12 +12,12 @@ using System.Text.Json.Nodes;
 
 namespace PracticalTest.DAL.Implement
 {
-    public class LoginToAPI : ILoginToAPI
+    public class AuthenticationGenerates : IAuthenticationGenerate
     {
         private PracticalTest_DBContext _dbContext;
         const string User = "far@voxteneooo.com";
         const string Password = "Pass@w0rd1@";
-        public LoginToAPI(PracticalTest_DBContext dbContext)
+        public AuthenticationGenerates(PracticalTest_DBContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -27,7 +27,7 @@ namespace PracticalTest.DAL.Implement
             return origin.AddSeconds(timestamp); //
         }
 
-        public async Task<string> LoginAPI()
+        public async Task<string> AuthenticationGenerate()
         {
             var userToken = _dbContext.Users.FirstOrDefault(x => x.EmailAddress == User)?.Token;
             var accessToken = string.Empty;
@@ -69,7 +69,7 @@ namespace PracticalTest.DAL.Implement
 
         public void TokenToDatabase(string token)
         {          
-            var tokenEmail = _dbContext.Users.FirstOrDefault(x => x.EmailAddress == User)?.Token;
+            var tokenEmail = _dbContext.Users.FirstOrDefault(x => x.EmailAddress == User);
             var userToken = new User
             {
                 Token = token,
@@ -91,9 +91,8 @@ namespace PracticalTest.DAL.Implement
             }
             else
             {
-                //_dbContext.Update(userToken);
-                var entry = _dbContext.Entry(userToken);
-                entry.CurrentValues.SetValues(User);
+                tokenEmail.Token = token;
+                _dbContext.Users.Update(tokenEmail);
                 _dbContext.SaveChanges();
             }
         }

@@ -12,10 +12,10 @@ namespace PracticalTest.Contracts.BLL
 {
     public interface ISportEventsBLL
     {
-        Task<IEnumerable<SportEvents>> GetAllSportEventsAsync(int page, int perPage, int organizerID);
+        Task<JsonSportEventsAll> GetAllSportEventsAsync(int page, int perPage, int organizerID);
         Task<SportEventsDTO> GetSportEventsAsync(int Id);
-        void Insert(SportEventsCreateAPIDTO organizerCreateDTO);
-        void Edit(int id, SportEventsCreateAPIDTO organizerCreateDTO);
-        void Delete(int id);
+        Task<SportEventsResponseAPIDTO> Insert(SportEventsCreateAPIDTO organizerCreateDTO);
+        Task<SportEventsCreateAPIDTO> Edit(int id, SportEventsCreateAPIDTO organizerCreateDTO);
+        Task Delete(int id);
     }
 }

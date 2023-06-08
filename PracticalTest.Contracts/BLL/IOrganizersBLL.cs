@@ -12,10 +12,10 @@ namespace PracticalTest.Contracts.BLL
 {
     public interface IOrganizersBLL
     {
-        Task<IEnumerable<OrganizerDTO>> GetAllOrganizersAsync(int page, int perPage);
+        Task<JsonOrganizer> GetAllOrganizersAsync(int page, int perPage);
         Task<OrganizerDTO> GetOrganizersAsync(int Id);
-        void Insert(OrganizerCreateDTO organizerCreateDTO);
-        void Edit(int id, OrganizerCreateDTO organizerCreateDTO);
-        void Delete(int id);
+        Task<Organizers> Insert(OrganizerCreateDTO organizerCreateDTO);
+        Task<OrganizerCreateDTO> Edit(int id, OrganizerCreateDTO organizerCreateDTO);
+        Task Delete(int id);
     }
 }

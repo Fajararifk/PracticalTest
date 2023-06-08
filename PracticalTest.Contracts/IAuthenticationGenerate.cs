@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace PracticalTest.Contracts
 {
-    public interface ILoginToAPI
+    public interface IAuthenticationGenerate
     {
-        public Task<string> LoginAPI();
+        public Task<string> AuthenticationGenerate();
         public void TokenToDatabase(string token);
     }
 }
