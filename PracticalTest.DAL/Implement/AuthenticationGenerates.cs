@@ -3,6 +3,7 @@ using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
+using PracticalTest.DTO;
 using PracticalTest.DTO.Create;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
@@ -29,7 +30,7 @@ namespace PracticalTest.DAL.Implement
 
         public async Task<string> AuthenticationGenerate()
         {
-            var userToken = _dbContext.Users.FirstOrDefault(x => x.EmailAddress == User)?.Token;
+            var userToken = _dbContext.Users.FirstOrDefault(x => x.EmailAddress == User).Token;
             var accessToken = string.Empty;
             if (!String.IsNullOrEmpty(userToken))
             {
@@ -42,7 +43,7 @@ namespace PracticalTest.DAL.Implement
                 {
                     var clientLogin = new HttpClient();
                     clientLogin.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/users/");
-                    var login = new User() { Email = User, Password = Password };
+                    var login = new UserCreateFromJSON() { email = User, password = Password };
                     var postLogin = await clientLogin.PostAsJsonAsync("login", login);
                     var token = postLogin.Content.ReadAsStringAsync().Result;
                     var parseToken = JsonObject.Parse(token);
