@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PracticalTest.BusinessObjects;
 
@@ -11,9 +12,10 @@ using PracticalTest.BusinessObjects;
 namespace PracticalTest.BusinessObjects.Migrations
 {
     [DbContext(typeof(PracticalTest_DBContext))]
-    partial class PracticalTest_DBContextModelSnapshot : ModelSnapshot
+    [Migration("20230608075715_AddClassAddress")]
+    partial class AddClassAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,15 +53,15 @@ namespace PracticalTest.BusinessObjects.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "18a8daef-0251-4589-9658-8c5529d2bd3d",
-                            ConcurrencyStamp = "d3c651c3-5738-4ba3-8f97-552169d91558",
+                            Id = "1734b295-caaa-410d-b44e-b2ccb1cc0b90",
+                            ConcurrencyStamp = "6e79438f-faa8-4a76-9091-3b36b308d72a",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "44baedb1-bbaf-42a4-b554-4ddac2d3d002",
-                            ConcurrencyStamp = "9f280250-37a5-4bd8-a747-fb11c4fdb303",
+                            Id = "d286506b-b2e0-4bf3-8eb1-9850b9fd9cbd",
+                            ConcurrencyStamp = "40950a0c-0a86-407c-9d43-cede0a62543d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -271,9 +273,6 @@ namespace PracticalTest.BusinessObjects.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)

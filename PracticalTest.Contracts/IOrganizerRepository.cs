@@ -16,8 +16,8 @@ namespace PracticalTest.Contracts
     {
         Task<JsonOrganizer> GetAllOrganizerAsync(int page, int perPage);
         Task<Organizers> GetOrganizerByIdAsync(int id);
-        Task<Organizers> Insert(OrganizerCreateDTO organizer);
-        Task<OrganizerCreateDTO> Edit(int id, OrganizerCreateDTO organizer);
-        Task Delete(int id);
+        Task<Organizers> InsertAsync(OrganizerCreateDTO organizer);
+        Task<OrganizerCreateDTO> EditAsync(int id, OrganizerCreateDTO organizer);
+        Task DeleteAsync(int id);
     }
 }

@@ -15,8 +15,6 @@ namespace PracticalTest.Controllers
     public class SportEventsController : Controller
     {
         private readonly PracticalTest_DBContext _context;
-        //private readonly HttpClient _httpClient;
-       //private readonly AsyncRetryPolicy<HttpResponseMessage> _asyncRetryPolicy;
         private readonly ISportEventsRepository _repository;
         private readonly ILogger<SportEventsController> _logger;
         private readonly IMapper _mapper;
@@ -77,7 +75,7 @@ namespace PracticalTest.Controllers
             {
                 if (sportEventsDTO.organizerId == null)
                     return BadRequest();
-                var insert = await _sportEventsBLL.Insert(sportEventsDTO);
+                var insert = await _sportEventsBLL.InsertAsync(sportEventsDTO);
                 return Ok(insert);
             }
             catch (Exception ex)
@@ -117,7 +115,7 @@ namespace PracticalTest.Controllers
             {
                 if(id == 0)
                     return BadRequest();
-                _sportEventsBLL.Edit(id, sportEventsCreateDTO);
+                _sportEventsBLL.EditAsync(id, sportEventsCreateDTO);
                 return Ok(sportEventsCreateDTO);
             }
             catch (Exception ex)

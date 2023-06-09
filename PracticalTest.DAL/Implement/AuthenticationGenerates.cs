@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using PracticalTest.BusinessObjects;
@@ -15,75 +16,36 @@ namespace PracticalTest.DAL.Implement
 {
     public class AuthenticationGenerates : IAuthenticationGenerate
     {
+        private readonly IConfiguration _configuration;
+        private readonly MyAPIClient _myAPIClient;
+        private readonly URLBase _urlBase;
         private PracticalTest_DBContext _dbContext;
-        const string User = "far@voxteneooo.com";
-        const string Password = "Pass@w0rd1@";
-        public AuthenticationGenerates(PracticalTest_DBContext dbContext)
+        private readonly IHttpClientFactory _httpClientFactory;
+        const string Login = "users/login";
+        public AuthenticationGenerates(PracticalTest_DBContext dbContext, IHttpClientFactory httpClientFactory, IConfiguration configuration, MyAPIClient myAPIClient, URLBase urlBase)
         {
             _dbContext = dbContext;
+            _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
+            _myAPIClient = myAPIClient;
+            _urlBase = urlBase;
         }
         private static DateTime ConvertFromUnixTimestamp(int timestamp)
         {
             DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return origin.AddSeconds(timestamp); //
         }
-
-        public async Task<string> AuthenticationGenerate()
+        private void TokenToDatabase(string token, string email, string firstName, string LastName, string password)
         {
-            var userToken = _dbContext.Users.FirstOrDefault(x => x.EmailAddress == User).Token;
-            var accessToken = string.Empty;
-            if (!String.IsNullOrEmpty(userToken))
-            {
-                var handlerToken = new JwtSecurityTokenHandler();
-                var jwtToken = handlerToken.ReadJwtToken(userToken);
-                var expirationDateStrings = jwtToken.Claims.First(claim => claim.Type.Equals("exp")).Value;
-                var expirationDateInt = Convert.ToInt32(expirationDateStrings);
-                var expirationDate = ConvertFromUnixTimestamp(expirationDateInt);
-                if (expirationDate < DateTime.Now)
-                {
-                    var clientLogin = new HttpClient();
-                    clientLogin.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/users/");
-                    var login = new UserCreateFromJSON() { email = User, password = Password };
-                    var postLogin = await clientLogin.PostAsJsonAsync("login", login);
-                    var token = postLogin.Content.ReadAsStringAsync().Result;
-                    var parseToken = JsonObject.Parse(token);
-                    accessToken = parseToken["token"].ToString();
-                }
-                else
-                {
-                    accessToken = userToken;
-                }
-            }
-            else
-            {
-                var clientLogin = new HttpClient();
-                clientLogin.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/users/");
-                var login = new User() { Email = User, Password = Password };
-                var postLogin = await clientLogin.PostAsJsonAsync("login", login);
-                var token = postLogin.Content.ReadAsStringAsync().Result;
-                var parseToken = JsonObject.Parse(token);
-                accessToken = parseToken["token"].ToString();
-            }
-            TokenToDatabase(accessToken);
-            return accessToken;
-        }
-
-        public void TokenToDatabase(string token)
-        {          
-            var tokenEmail = _dbContext.Users.FirstOrDefault(x => x.EmailAddress == User);
+            var tokenEmail = _dbContext.Users.FirstOrDefault(x => x.EmailAddress == email);
             var userToken = new User
             {
                 Token = token,
-                FirstName = User,
-                LastName = User,
-                EmailAddress = User,
-                Password = Password,
-                RepeatPassword = Password,
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false,
-                LockoutEnabled = false,
-                AccessFailedCount = 1,
+                FirstName = firstName,
+                LastName = LastName,
+                EmailAddress = email,
+                Password = password,
+                RepeatPassword = password,
             };
             if (tokenEmail == null)
             {
@@ -97,5 +59,59 @@ namespace PracticalTest.DAL.Implement
                 _dbContext.SaveChanges();
             }
         }
+        public async Task<string> AuthenticationGenerate()
+        {
+            var urlConfig = _urlBase.URLBaseAddress();
+            var user = _dbContext.Users.OrderByDescending(u => u.CreateAt).FirstOrDefault();
+            var accessToken = string.Empty;
+            if (!String.IsNullOrEmpty(user.Token))
+            {
+                var handlerToken = new JwtSecurityTokenHandler();
+                var jwtToken = handlerToken.ReadJwtToken(user.Token);
+                var expirationDateStrings = jwtToken.Claims.First(claim => claim.Type.Equals("exp")).Value;
+                var expirationDateInt = Convert.ToInt32(expirationDateStrings);
+                var expirationDate = ConvertFromUnixTimestamp(expirationDateInt);
+                if (expirationDate < DateTime.Now)
+                {
+                    using (var clientLogin = _httpClientFactory.CreateClient())
+                    {
+                        clientLogin.BaseAddress = new Uri(urlConfig);
+                        var login = new UserCreateFromJSON(){ email = user.EmailAddress, password = user.Password };
+                        var postLogin = await clientLogin.PostAsJsonAsync(Login, login);
+                        var token = await postLogin.Content.ReadAsStringAsync();
+                        var parseToken = JsonObject.Parse(token);
+                        var objectToken = parseToken["token"];
+                        if(objectToken != null)
+                        {
+                            accessToken = objectToken.ToString();
+                        }
+                        else
+                        {
+                            accessToken = string.Empty;
+                        }
+                    }
+                }
+                else
+                {
+                    accessToken = user.Token;
+                }
+            }
+            else
+            {
+                using (var clientLogin = _httpClientFactory.CreateClient())
+                {
+                    clientLogin.BaseAddress = new Uri(urlConfig);
+                    var login = new UserCreateFromJSON() { email = user.EmailAddress, password = user.Password };
+                    var postLogin = await clientLogin.PostAsJsonAsync("login", login);
+                    var token = postLogin.Content.ReadAsStringAsync().Result;
+                    var parseToken = JsonObject.Parse(token);
+                    accessToken = parseToken["token"].ToString();
+                }
+            }
+            TokenToDatabase(accessToken, user.EmailAddress, user.FirstName, user.LastName, user.Password);
+            return accessToken;
+        }
+
+       
     }
 }

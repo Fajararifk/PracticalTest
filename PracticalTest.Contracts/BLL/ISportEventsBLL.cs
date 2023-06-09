@@ -14,8 +14,8 @@ namespace PracticalTest.Contracts.BLL
     {
         Task<JsonSportEventsAll> GetAllSportEventsAsync(int page, int perPage, int organizerID);
         Task<SportEventsDTO> GetSportEventsAsync(int Id);
-        Task<SportEventsResponseAPIDTO> Insert(SportEventsCreateAPIDTO organizerCreateDTO);
-        Task<SportEventsCreateAPIDTO> Edit(int id, SportEventsCreateAPIDTO organizerCreateDTO);
+        Task<SportEventsResponseAPIDTO> InsertAsync(SportEventsCreateAPIDTO organizerCreateDTO);
+        Task<SportEventsCreateAPIDTO> EditAsync(int id, SportEventsCreateAPIDTO organizerCreateDTO);
         Task Delete(int id);
     }
 }

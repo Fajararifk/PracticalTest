@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace PracticalTest.DAL
 {
+    // Tidak terpakai om
     public class MethodFromAPI : IMethodFromAPI
     {
         private readonly IAuthenticationGenerate _loginToAPI;

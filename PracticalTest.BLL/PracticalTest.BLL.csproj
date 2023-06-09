@@ -19,4 +19,8 @@
     <ProjectReference Include="..\PracticalTest.DTO\PracticalTest.DTO.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helper\" />
+  </ItemGroup>
+
 </Project>

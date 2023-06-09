@@ -14,6 +14,5 @@ namespace PracticalTest.Contracts
     public interface IAuthenticationGenerate
     {
         public Task<string> AuthenticationGenerate();
-        public void TokenToDatabase(string token);
     }
 }

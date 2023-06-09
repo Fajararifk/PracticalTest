@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
-using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PracticalTest.BLL.Exceptions;
 using PracticalTest.DTO.Create;
@@ -27,27 +25,29 @@ namespace PracticalTest.BLL
         {
             try
             {
-                var delete = _sportEventsRepository.Delete(id);
+                var delete = _sportEventsRepository.DeleteAsync(id);
                 return delete;
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(Delete)} message : {ex}");
-                return Task.Delay(1000);
+                _logger.LogError($"{nameof(Delete)} message : {ex}");
+                _logger.LogDebug(ex.Data.Values.ToString());
+                throw new BLLException(ExceptionCodes.BLLExceptions.DeleteAsync, $"An error occured while getting DeleteAsync {ex.ToString()}");
             }
         }
 
-        public Task<SportEventsCreateAPIDTO> Edit(int id, SportEventsCreateAPIDTO sportEventsDTO)
+        public async Task<SportEventsCreateAPIDTO> EditAsync(int id, SportEventsCreateAPIDTO sportEventsDTO)
         {
             try
             {
-                var sportEvents = _sportEventsRepository.Edit(id, sportEventsDTO);
+                var sportEvents = await _sportEventsRepository.EditAsync(id, sportEventsDTO);
                 return sportEvents;
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(Edit)} message : {ex}");
-                return null;
+                _logger.LogError($"{nameof(EditAsync)} message : {ex}");
+                _logger.LogDebug(ex.Data.Values.ToString());
+                throw new BLLException(ExceptionCodes.BLLExceptions.UpdateAsync, $"An error occured while getting UpdateAsync {ex.ToString()}");
             }
             
         }
@@ -57,14 +57,13 @@ namespace PracticalTest.BLL
             try
             {
                 var sportEvent = await _sportEventsRepository.GetAllSportEventsAsync(page, perPage, organizerID);
-
-                //var sportEventDTO = _mapper.Map<string>(sportEvent);
                 return sportEvent;
                 
             }
             catch (Exception ex) 
             {
-                _logger.LogInformation($"{nameof(GetAllSportEventsAsync)} message : {ex.Message}");
+                _logger.LogError($"{nameof(GetAllSportEventsAsync)} message : {ex.Message}");
+                _logger.LogDebug(ex.Data.Values.ToString());
                 throw new BLLException(ExceptionCodes.BLLExceptions.GetAllSportEventsAsync, $"An error occured while getting getAllSportEvents {ex.ToString()}");
             }
             
@@ -80,37 +79,27 @@ namespace PracticalTest.BLL
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(GetSportEventsAsync)} message : {ex}");
+                _logger.LogError($"{nameof(GetSportEventsAsync)} message : {ex}");
+                _logger.LogDebug(ex.Data.Values.ToString());
                 throw new BLLException(ExceptionCodes.BLLExceptions.GetSportEventsAsync, $"An error occured while getting GetSportEventsAsync {ex.ToString()}");
             }
             
         }
 
-        public Task<SportEventsResponseAPIDTO> Insert(SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
+        public Task<SportEventsResponseAPIDTO> InsertAsync(SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
         {
             try
             {
-                var insert = _sportEventsRepository.Insert(sportEventsCreateAPIDTO);
+                var insert = _sportEventsRepository.InsertAsync(sportEventsCreateAPIDTO);
                 return insert;
 
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(Insert)} message : {ex}");
-                return null;
+                _logger.LogError($"{nameof(InsertAsync)} message : {ex}");
+                _logger.LogDebug(ex.Data.Values.ToString());
+                throw new BLLException(ExceptionCodes.BLLExceptions.InsertAsync, $"An error occured while getting InsertAsync {ex.ToString()}");
             }
-        }
-
-        public SportEventsCreateDTO SaveSportEvents(SportEventsCreateDTO sportEventsDTO)
-        {
-            var validationSportEvents = new SportEventsValidator();
-            var sportEventVM = _mapper.Map<SportEvents>(sportEventsDTO);
-            var validationResult = validationSportEvents.Validate(sportEventVM);
-            if(validationResult.Errors.Count > 0)
-            {
-                throw new ValidationException((IEnumerable<FluentValidation.Results.ValidationFailure>)validationResult);
-            }
-            return sportEventsDTO;
         }
 
     }

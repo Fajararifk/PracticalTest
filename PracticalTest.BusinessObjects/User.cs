@@ -25,5 +25,6 @@ namespace PracticalTest.BusinessObjects
         [Required(ErrorMessage = "Password is required")]
         public string RepeatPassword { get; set; }
         public string Token { get; set; }
+        public DateTime CreateAt { get; set; } = DateTime.Now;
     }
 }

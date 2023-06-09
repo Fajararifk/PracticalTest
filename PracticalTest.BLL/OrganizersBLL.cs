@@ -24,35 +24,31 @@ namespace PracticalTest.BLL
         }
         public async Task<JsonOrganizer> GetAllOrganizersAsync(int page, int perPage)
         {
-            var orgVM = await _organizerRepository.GetAllOrganizerAsync(page, perPage);
-            //var orgDTO = _mapper.Map<OrganizerDTO>(orgVM);
-            return orgVM;
+            var organizers = await _organizerRepository.GetAllOrganizerAsync(page, perPage);
+            return organizers;
         }
-        public Task<OrganizerCreateDTO> Edit(int id, OrganizerCreateDTO organizerCreateDTO)
+        public Task<OrganizerCreateDTO> EditAsync(int id, OrganizerCreateDTO organizerCreateDTO)
         {
-            var orgVM = _mapper.Map<Organizers>(organizerCreateDTO);
-            var edit = _organizerRepository.Edit(id, organizerCreateDTO);
+            var edit = _organizerRepository.EditAsync(id, organizerCreateDTO);
             return edit;
         }
         public Task Delete(int id)
         {
-            //var orgVM = _mapper.Map<Organizers>(id);
-            var delete = _organizerRepository.Delete(id);
+            var delete = _organizerRepository.DeleteAsync(id);
             return delete;
             
         }
 
         public async Task<OrganizerDTO> GetOrganizersAsync(int id)
         {
-            var orgVM = await _organizerRepository.GetOrganizerByIdAsync(id);
-            var orgDTO = _mapper.Map<OrganizerDTO>(orgVM);
-            return orgDTO;
+            var organizers = await _organizerRepository.GetOrganizerByIdAsync(id);
+            var organizersDTO = _mapper.Map<OrganizerDTO>(organizers);
+            return organizersDTO;
         }
 
-        public Task<Organizers> Insert(OrganizerCreateDTO organizerCreateDTO)
+        public async Task<Organizers> InsertAsync(OrganizerCreateDTO organizerCreateDTO)
         {
-            //var orgVM = _mapper.Map<Organizers>(userDTO);
-            var insert = _organizerRepository.Insert(organizerCreateDTO);
+            var insert = await _organizerRepository.InsertAsync(organizerCreateDTO);
             return insert;
         }
     }

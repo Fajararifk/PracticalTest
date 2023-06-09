@@ -10,6 +10,7 @@ namespace PracticalTest.Contracts
 {
     public interface IMethodFromAPI
     {
+        // Tidak terpakai
         public Task<JsonNode> GetAllOrganizerAsync(int page, int perPage);
         public Task<JsonNode> GetOrganizerByIdAsync(int id);
         public Task<JsonNode> EditAsync(int id, OrganizerCreateDTO organizer);

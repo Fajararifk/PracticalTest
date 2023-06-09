@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
@@ -17,55 +18,52 @@ namespace PracticalTest.DAL
         private IMethodFromAPI _loginToAPI;
         private readonly IMapper _mapper;
         private readonly IRepositoryCallAPI _repositoryCallAPI;
+        private readonly URLBase _urlBase;
+        const string Organizers = "organizers";
         const string UrlBase = "https://api-sport-events.php6-02.test.voxteneo.com/api/v1/";
 
-        public OrganizerRepository(IMethodFromAPI loginToAPI, IRepositoryCallAPI callAPI, IMapper mapper)
+        public OrganizerRepository(IMethodFromAPI loginToAPI, IRepositoryCallAPI callAPI, IMapper mapper, URLBase urlBase)
         {
             _loginToAPI = loginToAPI;
             _repositoryCallAPI = callAPI;
             _mapper = mapper;
+            _urlBase = urlBase;
         }
 
         public async Task<JsonOrganizer> GetAllOrganizerAsync(int page, int perPage)
         {
-            var url = $"{UrlBase}organizers?page={page}&perPage={perPage}";
+            var url = $"{_urlBase.URLBaseAddress()}{Organizers}?page={page}&perPage={perPage}";
             return await _repositoryCallAPI.Get<JsonOrganizer>(url);
-            /*var getAllOrganizerAsync = await _loginToAPI.GetAllOrganizerAsync(page, perPage);
-            var get = getAllOrganizerAsync["data"].ToJsonString();
-            var result = JsonConvert.DeserializeObject<List<Organizers>>(get);
-            return result;*/
         }
 
         public async Task<Organizers> GetOrganizerByIdAsync(int id)
         {
             
-            var url = $"{UrlBase}organizers/{id}";
-            return await _repositoryCallAPI.Get<Organizers>(url);
-           /* var getOrganizerByIdAsync = await _loginToAPI.GetOrganizerByIdAsync(id);
-            var get = getOrganizerByIdAsync.ToJsonString();
-            var result = JsonConvert.DeserializeObject<Organizers>(get);
-            return result;*/
+            var url = $"{_urlBase.URLBaseAddress()}{Organizers}/{id}";
+            var get = await _repositoryCallAPI
+                .Get<Organizers>(url);
+            return get;
         }
 
-        public async Task<Organizers> Insert(OrganizerCreateDTO organizer)
+        public async Task<Organizers> InsertAsync(OrganizerCreateDTO organizer)
         {
-            var url = $"{UrlBase}organizers";
-            var organizers = await _repositoryCallAPI.Create<Organizers, OrganizerCreateDTO>(url, organizer);
+            var url = $"{_urlBase.URLBaseAddress()}{Organizers}";
+            var organizers = await _repositoryCallAPI
+                .Create<Organizers, OrganizerCreateDTO>(url, organizer);
             return organizers;
-            //_loginToAPI.InsertAsync(organizer);
         }
-        public async Task<OrganizerCreateDTO> Edit(int id, OrganizerCreateDTO organizer)
+        public async Task<OrganizerCreateDTO> EditAsync(int id, OrganizerCreateDTO organizer)
         {
-            var url = $"{UrlBase}organizers/{id}";
-            return await _repositoryCallAPI.Update<OrganizerCreateDTO, OrganizerCreateDTO>(url, id,organizer);
-            //_loginToAPI.EditAsync(id, organizer);
+            var url = $"{_urlBase.URLBaseAddress()}{Organizers}/{id}";
+            var edit = await _repositoryCallAPI
+                .Update<OrganizerCreateDTO, OrganizerCreateDTO>(url, id,organizer);
+            return edit;
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var url = $"{UrlBase}organizers/{id}";
+            var url = $"{_urlBase.URLBaseAddress()}{Organizers}/{id}";
             await _repositoryCallAPI.Delete(url,id);
-            //_loginToAPI.DeleteAsync(id);
         }
 
     }

@@ -14,8 +14,8 @@ namespace PracticalTest.Contracts.BLL
     {
         Task<JsonOrganizer> GetAllOrganizersAsync(int page, int perPage);
         Task<OrganizerDTO> GetOrganizersAsync(int Id);
-        Task<Organizers> Insert(OrganizerCreateDTO organizerCreateDTO);
-        Task<OrganizerCreateDTO> Edit(int id, OrganizerCreateDTO organizerCreateDTO);
+        Task<Organizers> InsertAsync(OrganizerCreateDTO organizerCreateDTO);
+        Task<OrganizerCreateDTO> EditAsync(int id, OrganizerCreateDTO organizerCreateDTO);
         Task Delete(int id);
     }
 }

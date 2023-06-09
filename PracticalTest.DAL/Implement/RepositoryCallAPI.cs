@@ -92,8 +92,6 @@ namespace PracticalTest.DAL.Implement
                     var get = parse.ToJsonString();
                     var generic = JsonConvert.DeserializeObject<TResponse>(get);
                     return generic;
-                    /*var data = await response.Content.ReadAsAsync<T>();
-                    return data;*/
                 }
                 else
                 {

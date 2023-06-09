@@ -38,6 +38,9 @@ builder.Services.AddSwaggerGen(opt =>
     });
 
 });
+builder.Services.Configure<MyAPIClient>(
+    builder.Configuration.GetSection("MyAPIClient")
+);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
     opt => builder.Configuration.Bind("JWTSettings", opt));
@@ -60,7 +63,6 @@ builder.Services.AddLogging(opt =>
 {
     opt.AddSerilog();
 });
-//builder.Services.AddScoped<IMapper, Mapper>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var mapping = new MapperConfiguration(mc =>
 {
