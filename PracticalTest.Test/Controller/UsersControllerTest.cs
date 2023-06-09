@@ -108,7 +108,9 @@ namespace PracticalTest.Test.Controller
             var user = new UserCreateAPIDTO();
             var result = _controller.CreateUsersAPI(user);
             Microsoft.VisualStudio.TestTools.UnitTesting
-                .Assert.IsTrue(result is Task<IActionResult>);
+            .Assert.IsTrue(result is Task<IActionResult>);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
         public void EditUsers()
         {
@@ -116,12 +118,16 @@ namespace PracticalTest.Test.Controller
             var result = _controller.UpdateUsersAPI(2019, user);
             Microsoft.VisualStudio.TestTools.UnitTesting
                 .Assert.IsTrue(result is Task<IActionResult>);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
         public void DeleteUsers()
         {
             var result = _controller.DeleteUsersAPI(2019);
             Microsoft.VisualStudio.TestTools.UnitTesting
                 .Assert.IsTrue(result is Task<IActionResult>);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
         public void GetUsersById()
         {
@@ -129,6 +135,8 @@ namespace PracticalTest.Test.Controller
             var result = _controller.GetUserAPI(2019);
             Microsoft.VisualStudio.TestTools.UnitTesting
                 .Assert.IsTrue(result is Task<IActionResult>);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
     }
 }

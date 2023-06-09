@@ -80,6 +80,8 @@ namespace PracticalTest.Test.Controller
             var result = _controller.CreateSportEvents(sportEvents);
             Microsoft.VisualStudio.TestTools.UnitTesting
                 .Assert.IsTrue(result is Task<IActionResult>);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
         public void EditSportEvents()
         {
@@ -87,24 +89,32 @@ namespace PracticalTest.Test.Controller
             var result = _controller.UpdateSportEvents(1335, sportEvents);
             Microsoft.VisualStudio.TestTools.UnitTesting
                 .Assert.IsTrue(result is Task<IActionResult>);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
         public void DeleteSportEvents()
         {
             var result = _controller.DeleteSportEvents(960);
             Microsoft.VisualStudio.TestTools.UnitTesting
                 .Assert.IsTrue(result is Task);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
         public void GetAllSportEvents()
         {
             var result = _controller.GetSportEvents(1, 1, 960);
             Microsoft.VisualStudio.TestTools.UnitTesting
                 .Assert.IsTrue(result is Task<IActionResult>);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
         public void GetSportEventsById()
         {
             var result = _controller.GetSportEvents(1335);
             Microsoft.VisualStudio.TestTools.UnitTesting
                 .Assert.IsTrue(result is Task<IActionResult>);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
     }
 }

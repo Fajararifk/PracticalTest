@@ -94,12 +94,16 @@ namespace PracticalTest.Test.Controller
             var result = _controller.UpdateOrganizers(2019, organizer);
             Microsoft.VisualStudio.TestTools.UnitTesting
                 .Assert.IsTrue(result is Task<IActionResult>);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
         public void DeleteOrganizers()
         {
             var result = _controller.DeleteOrganizers(950);
             Microsoft.VisualStudio.TestTools.UnitTesting
                 .Assert.IsTrue(result is Task);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
         public void GetAllOrganizers()
         {
@@ -107,6 +111,8 @@ namespace PracticalTest.Test.Controller
             var result = _controller.GetAllOrganizers(1, 1);
             Microsoft.VisualStudio.TestTools.UnitTesting
                 .Assert.IsTrue(result is Task<IActionResult>);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
         public void GetOrganizersById()
         {
@@ -114,6 +120,8 @@ namespace PracticalTest.Test.Controller
             var result = _controller.GetOrganizers(950);
             Microsoft.VisualStudio.TestTools.UnitTesting
                 .Assert.IsTrue(result is Task<IActionResult>);
+            Microsoft.VisualStudio.TestTools.UnitTesting
+            .Assert.IsNotNull(result);
         }
     }
 }
