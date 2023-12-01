@@ -38,6 +38,9 @@ builder.Services.AddSwaggerGen(opt =>
     });
 
 });
+builder.Services.Configure<MyAPIClient>(
+    builder.Configuration.GetSection("MyAPIClient")
+);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
     opt => builder.Configuration.Bind("JWTSettings", opt));
@@ -50,13 +53,16 @@ var logger = new LoggerConfiguration()
     .CreateLogger();
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
-builder.Host.UseSerilog();
+builder.Host.UseSerilog((context, services, configuration) => configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext());
 builder.Services.RegisterModules();
+builder.Services.AddHttpClient();
 builder.Services.AddLogging(opt =>
 {
     opt.AddSerilog();
 });
-//builder.Services.AddScoped<IMapper, Mapper>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var mapping = new MapperConfiguration(mc =>
 {

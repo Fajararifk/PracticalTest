@@ -19,6 +19,7 @@ namespace PracticalTest.BusinessObjects
         public virtual DbSet<SportEvents> SportsEvents { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<IdentityUserToken<string>> IdentityUserTokens { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

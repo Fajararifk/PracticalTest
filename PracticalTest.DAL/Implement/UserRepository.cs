@@ -16,7 +16,8 @@ namespace PracticalTest.DAL
         }
         public async Task<IEnumerable<User>> GetAllUserAsync()
         {
-            return await FindAll().ToListAsync();
+            var user = await FindAll().ToListAsync();
+            return user;
         }
         public async Task<User> GetUserByNameAsync(int id)
         {

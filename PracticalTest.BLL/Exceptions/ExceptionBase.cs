@@ -9,7 +9,7 @@ namespace PracticalTest.BLL.Exceptions
 {
     public class ExceptionBase : Exception
     {
-        public ExceptionBase(string description) //Create account failed
+        public ExceptionBase(string description)
             : base(description)
         {
             if (description == null) throw new ArgumentNullException("description");
@@ -18,7 +18,6 @@ namespace PracticalTest.BLL.Exceptions
         public ExceptionBase(string description, Exception inner)
             : base(description, inner)
         {
-            // avoid devs t let throw exception without details
             if (description == null) throw new ArgumentNullException("description");
             if (inner == null) throw new ArgumentNullException("inner");
             Code = description;

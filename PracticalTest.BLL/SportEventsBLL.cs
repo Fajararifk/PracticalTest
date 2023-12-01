@@ -1,19 +1,10 @@
 ﻿using AutoMapper;
-using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.Razor;
 using PracticalTest.BLL.Exceptions;
 using PracticalTest.DTO.Create;
-using System.Text.Json.Nodes;
 
 namespace PracticalTest.BLL
 {
@@ -30,7 +21,7 @@ namespace PracticalTest.BLL
             _logger = logger;
         }
 
-        public Task<HttpResponseMessage> DeleteAsync(int id)
+        public Task Delete(int id)
         {
             try
             {
@@ -39,83 +30,76 @@ namespace PracticalTest.BLL
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(DeleteAsync)} message : {ex}");
-                var delete = _sportEventsRepository.DeleteAsync(id);
-                return delete;
+                _logger.LogError($"{nameof(Delete)} message : {ex}");
+                _logger.LogDebug(ex.Data.Values.ToString());
+                throw new BLLException(ExceptionCodes.BLLExceptions.DeleteAsync, $"An error occured while getting DeleteAsync {ex.ToString()}");
             }
         }
 
-        public async Task<JsonNode> EditAsync(int id, SportEventsCreateAPIDTO sportEventsDTO)
+        public async Task<SportEventsCreateAPIDTO> EditAsync(int id, SportEventsCreateAPIDTO sportEventsDTO)
         {
             try
             {
-                var sportEventVM = _mapper
-                .Map<SportEvents>(sportEventsDTO);
-                var edit =  await _sportEventsRepository.EditAsync(id, sportEventsDTO);
-                return edit;
+                var sportEvents = await _sportEventsRepository.EditAsync(id, sportEventsDTO);
+                return sportEvents;
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(EditAsync)} message : {ex}");
-                return ex.Message;
+                _logger.LogError($"{nameof(EditAsync)} message : {ex}");
+                _logger.LogDebug(ex.Data.Values.ToString());
+                throw new BLLException(ExceptionCodes.BLLExceptions.UpdateAsync, $"An error occured while getting UpdateAsync {ex.ToString()}");
             }
             
         }
 
-        public async Task<JsonNode> GetAllSportEventsAsync(int page, int perPage, int organizerID)
+        public async Task<JsonSportEventsAll> GetAllSportEventsAsync(int page, int perPage, int organizerID)
         {
             try
             {
-                var sportEventVM = await _sportEventsRepository.GetAllSportEventsAsync( page, perPage, organizerID);
-                return sportEventVM;
+                var sportEvent = await _sportEventsRepository.GetAllSportEventsAsync(page, perPage, organizerID);
+                return sportEvent;
+                
             }
             catch (Exception ex) 
             {
-                _logger.LogInformation($"{nameof(GetAllSportEventsAsync)} message : {ex}");
+                _logger.LogError($"{nameof(GetAllSportEventsAsync)} message : {ex.Message}");
+                _logger.LogDebug(ex.Data.Values.ToString());
                 throw new BLLException(ExceptionCodes.BLLExceptions.GetAllSportEventsAsync, $"An error occured while getting getAllSportEvents {ex.ToString()}");
             }
             
         }
 
-        public async Task<JsonNode> GetSportEventsAsync(int id)
+        public async Task<SportEventsDTO> GetSportEventsAsync(int id)
         {
             try
             {
                 var sportEventVM = await _sportEventsRepository.GetSportEventsByIdAsync(id);
-                return sportEventVM;
+                var sportEventDTO = _mapper.Map<SportEventsDTO>(sportEventVM);
+                return sportEventDTO;
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(GetSportEventsAsync)} message : {ex}");
+                _logger.LogError($"{nameof(GetSportEventsAsync)} message : {ex}");
+                _logger.LogDebug(ex.Data.Values.ToString());
                 throw new BLLException(ExceptionCodes.BLLExceptions.GetSportEventsAsync, $"An error occured while getting GetSportEventsAsync {ex.ToString()}");
             }
             
         }
 
-        public async Task<JsonNode> InsertAsync(SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
+        public Task<SportEventsResponseAPIDTO> InsertAsync(SportEventsCreateAPIDTO sportEventsCreateAPIDTO)
         {
             try
             {
-                var insert = await _sportEventsRepository.InsertAsync(sportEventsCreateAPIDTO);
+                var insert = _sportEventsRepository.InsertAsync(sportEventsCreateAPIDTO);
                 return insert;
+
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(InsertAsync)} message : {ex}");
-                return ex.Message;
+                _logger.LogError($"{nameof(InsertAsync)} message : {ex}");
+                _logger.LogDebug(ex.Data.Values.ToString());
+                throw new BLLException(ExceptionCodes.BLLExceptions.InsertAsync, $"An error occured while getting InsertAsync {ex.ToString()}");
             }
-        }
-
-        public SportEventsCreateDTO SaveSportEvents(SportEventsCreateDTO sportEventsDTO)
-        {
-            var validationSportEvents = new SportEventsValidator();
-            var sportEventVM = _mapper.Map<SportEvents>(sportEventsDTO);
-            var validationResult = validationSportEvents.Validate(sportEventVM);
-            if(validationResult.Errors.Count > 0)
-            {
-                throw new ValidationException((IEnumerable<FluentValidation.Results.ValidationFailure>)validationResult);
-            }
-            return sportEventsDTO;
         }
 
     }

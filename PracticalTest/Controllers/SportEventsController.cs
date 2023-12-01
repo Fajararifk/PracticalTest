@@ -1,27 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Polly;
-using Polly.Retry;
-using PracticalTest.BLL;
 using PracticalTest.BusinessObjects;
 using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
-using PracticalTest.DTO;
 using PracticalTest.DTO.Create;
-using RestSharp;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Mime;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Xml.Linq;
-using static System.Net.WebRequestMethods;
 
 namespace PracticalTest.Controllers
 {
@@ -32,8 +15,6 @@ namespace PracticalTest.Controllers
     public class SportEventsController : Controller
     {
         private readonly PracticalTest_DBContext _context;
-        //private readonly HttpClient _httpClient;
-       //private readonly AsyncRetryPolicy<HttpResponseMessage> _asyncRetryPolicy;
         private readonly ISportEventsRepository _repository;
         private readonly ILogger<SportEventsController> _logger;
         private readonly IMapper _mapper;
@@ -60,7 +41,7 @@ namespace PracticalTest.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"{nameof(GetSportEvents)} message : {ex}");
+                _logger.LogInformation($"{nameof(GetSportEvents)} message : {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
@@ -92,8 +73,10 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var sportEvents = await _sportEventsBLL.InsertAsync(sportEventsDTO);
-                return Ok(sportEvents);
+                if (sportEventsDTO.organizerId == null)
+                    return BadRequest();
+                var insert = await _sportEventsBLL.InsertAsync(sportEventsDTO);
+                return Ok(insert);
             }
             catch (Exception ex)
             {
@@ -110,8 +93,10 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var sportEvents = await _sportEventsBLL.DeleteAsync(id);
-                return Ok(sportEvents);
+                if (id == 0)
+                    return BadRequest();
+                _sportEventsBLL.Delete(id);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -128,8 +113,10 @@ namespace PracticalTest.Controllers
         {
             try
             {
-                var sportEvents = await _sportEventsBLL.EditAsync(id, sportEventsCreateDTO);
-                return Ok(sportEvents);
+                if(id == 0)
+                    return BadRequest();
+                _sportEventsBLL.EditAsync(id, sportEventsCreateDTO);
+                return Ok(sportEventsCreateDTO);
             }
             catch (Exception ex)
             {

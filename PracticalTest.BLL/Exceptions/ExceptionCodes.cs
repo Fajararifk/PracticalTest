@@ -17,7 +17,10 @@ namespace PracticalTest.BLL.Exceptions
         public enum BLLExceptions
         {
             GetAllSportEventsAsync,
-            GetSportEventsAsync
+            GetSportEventsAsync,
+            InsertAsync,
+            DeleteAsync,
+            UpdateAsync
         }
     }
 }

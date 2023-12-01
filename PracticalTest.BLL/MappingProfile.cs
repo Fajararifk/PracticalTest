@@ -21,6 +21,8 @@ namespace PracticalTest.BLL
             CreateMap<OrganizerCreateDTO, Organizers>().ReverseMap();
             CreateMap<SportEventsDTO, SportEvents>().ReverseMap();
             CreateMap<SportEventsCreateAPIDTO, SportEvents>().ReverseMap();
+            CreateMap<SportEventsResponseAPIDTO, SportEventsCreateAPIDTO>();
+            CreateMap<SportEventsCreateAPIDTO, SportEventsResponseAPIDTO>().ReverseMap();
         }
     }
 }

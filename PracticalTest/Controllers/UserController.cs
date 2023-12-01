@@ -123,8 +123,8 @@ namespace PracticalTest.Controllers
                 _logger.LogInformation("name object is null");
                 return BadRequest("name object is null");
             }
-            _userBLL.Insert(name);
-            return Ok(name);
+            var insert = await _userBLL.Insert(name);
+            return Ok(insert);
         }
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

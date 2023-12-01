@@ -4,12 +4,8 @@ using PracticalTest.Contracts;
 using PracticalTest.Contracts.BLL;
 using PracticalTest.DTO;
 using PracticalTest.DTO.Create;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http.Json;
+using System.Text.Json.Nodes;
 
 namespace PracticalTest.BLL
 {
@@ -36,11 +32,10 @@ namespace PracticalTest.BLL
             _userRepository.Save();
         }
 
-        public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             var userVM = await _userRepository.GetAllUserAsync();
-            var userDTO = _mapper.Map<IEnumerable<UserDTO>>(userVM);
-            return userDTO;
+            return userVM;
         }
 
         public async Task<UserDTO> GetUsersAsync(int id)
@@ -50,11 +45,26 @@ namespace PracticalTest.BLL
             return userDTO;
         }
 
-        public void Insert(UserCreateDTO userDTO)
+        public async Task<User> Insert(UserCreateDTO userDTO)
         {
+            var clientLogin = new HttpClient();
+            clientLogin.BaseAddress = new Uri("https://api-sport-events.php6-02.test.voxteneo.com/api/v1/users/");
+            var login = new UserCreateFromJSON() { email = userDTO.EmailAddress, password = userDTO.Password };
+            var postLogin = await clientLogin.PostAsJsonAsync("login", login);
+            var token = postLogin.Content.ReadAsStringAsync().Result;
+            var parseToken = JsonObject.Parse(token);
+            var accessToken = parseToken["token"].ToString();
             var userVM = _mapper.Map<User>(userDTO);
+            userVM.FirstName = userDTO.FirstName;
+            userVM.LastName = userDTO.LastName;
+            userVM.EmailAddress = userDTO.EmailAddress;
+            userVM.Password = userDTO.Password;
+            userVM.RepeatPassword = userDTO.RepeatPassword;
+            userVM.Token = accessToken;
+            userVM.CreateAt = DateTime.Now;
             _userRepository.Insert(userVM);
             _userRepository.Save();
+            return userVM;
         }
     }
 }

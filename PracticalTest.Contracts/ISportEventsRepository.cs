@@ -1,4 +1,5 @@
 ﻿using PracticalTest.BusinessObjects;
+using PracticalTest.DTO;
 using PracticalTest.DTO.Create;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,10 @@ namespace PracticalTest.Contracts
 {
     public interface ISportEventsRepository
     {
-        Task<JsonNode> GetAllSportEventsAsync(int page, int perPage, int organizerID);
-        Task<JsonNode> GetSportEventsByIdAsync(int id);
-        Task<JsonNode> InsertAsync(SportEventsCreateAPIDTO sportEventsCreateAPIDTO);
-        Task<JsonNode> EditAsync(int id, SportEventsCreateAPIDTO sportEventsCreateAPIDTO);
-        Task<HttpResponseMessage> DeleteAsync(int id);
+        Task<JsonSportEventsAll> GetAllSportEventsAsync(int page, int perPage, int organizerID);
+        Task<SportEvents> GetSportEventsByIdAsync(int id);
+        Task<SportEventsResponseAPIDTO> InsertAsync(SportEventsCreateAPIDTO sportEventsCreateAPIDTO);
+        Task<SportEventsCreateAPIDTO> EditAsync(int id, SportEventsCreateAPIDTO sportEventsCreateAPIDTO);
+        Task DeleteAsync(int id);
     }
 }

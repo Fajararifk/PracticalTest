@@ -1,9 +1,4 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 namespace PracticalTest.BusinessObjects
 {
     public class SportEventsValidator : AbstractValidator<SportEvents>
@@ -25,12 +20,12 @@ namespace PracticalTest.BusinessObjects
             RuleFor(model => model.EventName)
                 .MinimumLength(250)
                 .WithMessage("This Event name should not be more 250 characters");
-            RuleFor(model => model.Organizers).NotEmpty();
+            RuleFor(model => model.organizer).NotEmpty();
 
         }
         private bool UniqueName(SportEvents sportEvents, string name)
         {
-            var dbSportEvents = _dbContext.SportsEvents.Where(x => x.EventName.ToLower() == name.ToLower()).SingleOrDefault();
+            var dbSportEvents = _dbContext.SportsEvents.FirstOrDefault(x => x.EventName.ToLower() == name.ToLower());
             if(dbSportEvents == null)
                 return true;
             return dbSportEvents.EventName == sportEvents.EventName;
