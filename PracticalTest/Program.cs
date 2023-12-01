@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen(opt =>
         Contact = new OpenApiContact
         {
             Name = "Fajar Arif Kurniawan",
-            Email = "far@voxteneo.com",
+            Email = "fajar.ariev@gmail.com",
             Url = new Uri("https://id.linkedin.com/in/fajararifkurniawan")
         },
         Version = "v1"
