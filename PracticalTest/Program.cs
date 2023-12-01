@@ -27,7 +27,7 @@ builder.Services.AddSwaggerGen(opt =>
     opt.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "Practical Test Fajar Arif Kurniawan",
-        Description = "This test for PT. Indo Online Mitra Usaha",
+        Description = "Hello My Name is Fajar Arif Kurniawan",
         Contact = new OpenApiContact
         {
             Name = "Fajar Arif Kurniawan",
